@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pablo Diaz - Portfolio</title>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuración personalizada de Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF2400',     /* Rojo Escarlata */
+                        dark: '#1a1a1a',        /* Fondo Principal */
+                        darker: '#111111',      /* Footer */
+                        secondary: '#b3b3b3',   /* Texto Secundario */
+                        glass: 'rgba(255, 255, 255, 0.05)',
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'glow': '0 5px 20px rgba(255, 36, 0, 0.3)',
+                        'glow-hover': '0 8px 25px rgba(255, 36, 0, 0.5)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Estilos personalizados para animaciones y scrollbar */
+        body {
+            background-color: #1a1a1a;
+            color: white;
+        }
+        
+        /* Ocultar checkbox del toggle de idioma */
+        #language-toggle {
+            display: none;
+        }
+
+        /* Lógica visual del toggle de idioma */
+        #language-toggle:not(:checked) ~ .switch-label .en {
+            opacity: 1;
+            color: #FF2400;
+        }
+        #language-toggle:checked ~ .switch-label .es {
+            opacity: 1;
+            color: #FF2400;
+        }
+
+        /* Animación de entrada para items del portafolio */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Modal Zoom */
+        @keyframes zoomIn {
+            from {transform: scale(0.9); opacity: 0;}
+            to {transform: scale(1); opacity: 1;}
+        }
+        .animate-zoom-in {
+            animation: zoomIn 0.3s ease forwards;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-primary selection:text-white overflow-x-hidden">
+
+    <!-- Navegación -->
+    <nav class="fixed w-full top-0 z-50 bg-[#1a1a1a]/95 backdrop-blur-md border-b border-white/5 px-6 md:px-[8%] py-5 flex justify-between items-center transition-all duration-300">
+        <a href="#" class="text-2xl font-extrabold tracking-wide text-white">PABLO<span class="text-primary">.</span></a>
+        
+        <div class="hidden md:flex items-center gap-8">
+            <div class="flex gap-8">
+                <a href="#home" class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300" data-key="nav_home">Home</a>
+                <a href="#about" class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300" data-key="nav_about">About Me</a>
+                <a href="#portfolio" class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300" data-key="nav_portfolio">Portfolio</a>
+                <a href="#contact" class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300" data-key="nav_contact">Contact</a>
+            </div>
+            
+            <!-- Interruptor de Idioma -->
+            <div class="flex items-center ml-4">
+                <input type="checkbox" id="language-toggle">
+                <label for="language-toggle" class="switch-label cursor-pointer bg-glass px-3 py-1.5 rounded-full border border-white/10 flex gap-2.5 text-xs font-bold select-none">
+                    <span class="en opacity-30 transition-opacity duration-300">EN</span>
+                    <span class="es opacity-30 transition-opacity duration-300">ES</span>
+                </label>
+            </div>
+        </div>
+        
+        <!-- Menú Móvil (Hamburguesa simple) -->
+        <button class="md:hidden text-2xl text-white">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Sección Hero -->
+    <section id="home" class="min-h-screen pt-32 pb-16 px-6 md:px-[10%] flex flex-col-reverse md:flex-row items-center justify-between gap-12">
+        
+        <!-- Texto Hero -->
+        <div class="w-full md:w-1/2 z-10 text-center md:text-left">
+            <span class="greeting lang-text block text-lg font-semibold tracking-[3px] text-secondary mb-4" data-key="greeting">HI THERE!</span>
+            <h1 class="text-5xl md:text-[65px] leading-[1.1] font-bold mb-6">
+                <span class="lang-text" data-key="im">I'M</span> <span class="text-primary">PABLO</span>
+            </h1>
+            
+            <div class="roles inline-block bg-primary text-white px-5 py-2 font-semibold text-sm mb-8 skew-x-[-10deg]">
+                <span class="block skew-x-[10deg]">
+                    Web Designer // UX UI Designer // Photographer
+                </span>
+            </div>
+
+            <p class="description lang-text text-secondary leading-loose mb-10 text-base max-w-[90%] mx-auto md:mx-0" data-key="description">
+                I'm a freelancer based in Dominican Republic, specialized in creating visual experiences and functional interfaces. Passionate about detail and aesthetics.
+            </p>
+
+            <div class="flex gap-5 justify-center md:justify-start mb-10">
+                <a href="#contact" class="lang-text btn-primary px-9 py-3.5 rounded-full font-semibold text-sm bg-primary text-white border-2 border-primary shadow-glow hover:bg-transparent hover:text-primary hover:shadow-glow-hover hover:-translate-y-1 transition-all duration-300" data-key="btn_hire">HIRE ME</a>
+                <a href="#portfolio" class="lang-text btn-secondary px-9 py-3.5 rounded-full font-semibold text-sm bg-transparent text-white border-2 border-white/20 hover:border-primary hover:text-primary transition-all duration-300" data-key="nav_portfolio">PORTFOLIO</a>
+            </div>
+
+            <div class="flex gap-6 justify-center md:justify-start text-xl text-secondary">
+                <a href="https://www.linkedin.com/in/pablo-diaz-designer/" target="_blank" class="hover:text-primary hover:-translate-y-1 transition-all duration-300"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.behance.net/pablodiaz1920" target="_blank" class="hover:text-primary hover:-translate-y-1 transition-all duration-300"><i class="fab fa-behance"></i></a>
+                <a href="https://instagram.com" target="_blank" class="hover:text-primary hover:-translate-y-1 transition-all duration-300"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+
+        <!-- Imagen Hero -->
+        <div class="w-full md:w-[400px] h-[380px] md:h-[500px] relative flex justify-center items-center group">
+            <!-- Imagen con fallback -->
+            <img src="Pablo Diaz.jpg" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=634&q=80'" alt="Pablo Diaz" class="w-full h-full object-cover rounded-lg grayscale group-hover:grayscale-0 transition-all duration-500 z-10 relative">
+            
+            <!-- Forma decorativa (Borde rojo detrás) -->
+            <div class="absolute w-full h-full border-[5px] border-primary top-6 -right-6 z-0 transition-all duration-300 group-hover:top-4 group-hover:-right-4"></div>
+        </div>
+    </section>
+
+    <!-- Sección About Me -->
+    <section id="about" class="py-24 px-6 md:px-[10%] bg-dark">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+            
+            <!-- Columna Texto -->
+            <div>
+                <p class="lang-text text-primary font-bold tracking-[2px] text-[13px] mb-2 uppercase" data-key="about_subtitle">WHO I AM</p>
+                <h2 class="lang-text text-[40px] font-bold mb-6 leading-tight" data-key="about_title">About Me</h2>
+                <p class="lang-text bio-text text-secondary leading-relaxed mb-8 text-[15px]" data-key="about_bio">
+                    Hello! I'm Pablo Diaz, a multidisciplinary creative passionate about the intersection of design and technology. With a sharp eye for detail and a focus on user experience, I transform complex ideas into elegant digital solutions. Whether it's crafting a pixel-perfect interface or coding a robust website, I give 100% to every project.
+                </p>
+                
+                <div class="space-y-4 mb-8">
+                    <div class="flex items-center">
+                        <span class="lang-text w-20 font-semibold text-white" data-key="lbl_name">Name:</span>
+                        <span class="text-secondary">Pablo Diaz</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="lang-text w-20 font-semibold text-white" data-key="lbl_from">From:</span>
+                        <span class="text-secondary">Santo Domingo, DR</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="lang-text w-20 font-semibold text-white" data-key="lbl_email">Email:</span>
+                        <span class="text-secondary">
+                            <a href="mailto:pablomigueldiazvizcaino@gmail.com" class="hover:text-primary transition-colors">pablomigueldiazvizcaino@gmail.com</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna Skills -->
+            <div>
+                <h3 class="lang-text text-2xl mb-8 relative pb-2 inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:h-[3px] after:bg-primary" data-key="skills_title">My Skills & Tools</h3>
+                
+                <!-- Graphic Design -->
+                <div class="mb-8">
+                    <h4 class="lang-text text-base text-white font-medium mb-4" data-key="cat_design">Graphic & UI Design</h4>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default"><i class="fab fa-figma text-primary group-hover:text-white"></i> Figma</span>
+                        <span class="bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default"><i class="fas fa-pen-nib text-primary"></i> Photoshop</span>
+                        <span class="bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default"><i class="fas fa-vector-square text-primary"></i> Illustrator</span>
+                    </div>
+                </div>
+
+                <!-- Web Development -->
+                <div class="mb-8">
+                    <h4 class="lang-text text-base text-white font-medium mb-4" data-key="cat_dev">Web Development</h4>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default"><i class="fab fa-html5 text-primary"></i> HTML</span>
+                        <span class="bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default"><i class="fab fa-css3-alt text-primary"></i> CSS</span>
+                        <span class="bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default"><i class="fab fa-wordpress text-primary"></i> WordPress</span>
+                        <span class="bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default"><i class="fab fa-elementor text-primary"></i> Elementor Pro</span>
+                        <span class="bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default"><i class="fas fa-code text-primary"></i> Windsurf</span>
+                    </div>
+                </div>
+
+                <!-- Photo & Video -->
+                <div>
+                    <h4 class="lang-text text-base text-white font-medium mb-4" data-key="cat_media">Photography & Video</h4>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default"><i class="fas fa-camera-retro text-primary"></i> Lightroom</span>
+                        <span class="bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default"><i class="fas fa-video text-primary"></i> Premiere</span>
+                        <span class="bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default"><i class="fas fa-magic text-primary"></i> After Effects</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Portafolio -->
+    <section id="portfolio" class="py-20 px-6 md:px-[10%] bg-[#151515]">
+        <div class="text-center mb-12">
+            <p class="lang-text text-primary font-bold tracking-[2px] text-[13px] uppercase" data-key="port_subtitle">MY WORK</p>
+            <h2 class="lang-text text-[40px] font-bold mt-2" data-key="port_title">Latest Projects</h2>
+        </div>
+
+        <!-- Pestañas -->
+        <div class="flex justify-center flex-wrap gap-4 mb-12">
+            <button class="tab-btn active lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5" data-filter="all" data-key="cat_all">All</button>
+            <button class="tab-btn lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5" data-filter="website" data-key="cat_web">Website</button>
+            <button class="tab-btn lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5" data-filter="uxui" data-key="cat_ux">UX/UI</button>
+            <button class="tab-btn lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5" data-filter="photography" data-key="cat_photo">Photography</button>
+            <button class="tab-btn lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5" data-filter="graphic" data-key="cat_graphic">Graphic Design</button>
+        </div>
+
+        <!-- Grid de Proyectos -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 portfolio-grid">
+            
+            <!-- Rizos Divinos -->
+            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="website" data-link="https://rizosdivinos.com/" data-tools='<i class="fab fa-wordpress"></i> <i class="fab fa-elementor"></i>'>
+                <img src="https://images.unsplash.com/photo-1522337360705-8b13d52b03cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Rizos Divinos" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm">
+                    <h3 class="text-white text-2xl font-bold mb-2 translate-y-5 group-hover:translate-y-0 transition-transform duration-500">Rizos Divinos</h3>
+                    <p class="text-gray-100 text-sm translate-y-5 group-hover:translate-y-0 transition-transform duration-500 delay-75">E-commerce</p>
+                </div>
+            </div>
+
+            <!-- Inklub 787 -->
+            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="website" data-link="https://inklub787.com/" data-tools='<i class="fab fa-wordpress"></i> <i class="fab fa-elementor"></i>'>
+                <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Inklub 787" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm">
+                    <h3 class="text-white text-2xl font-bold mb-2 translate-y-5 group-hover:translate-y-0 transition-transform duration-500">Inklub 787</h3>
+                    <p class="text-gray-100 text-sm translate-y-5 group-hover:translate-y-0 transition-transform duration-500 delay-75">Landing page</p>
+                </div>
+            </div>
+
+            <!-- Website Template -->
+            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="website">
+                <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Web Design" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm">
+                    <h3 class="text-white text-2xl font-bold mb-2 translate-y-5 group-hover:translate-y-0 transition-transform duration-500">Portfolio Template</h3>
+                    <p class="text-gray-100 text-sm translate-y-5 group-hover:translate-y-0 transition-transform duration-500 delay-75">Website Development</p>
+                </div>
+            </div>
+
+            <!-- UX UI -->
+            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="uxui">
+                <img src="https://images.unsplash.com/photo-1586717791821-3f44a5638d48?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="UX Design" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm">
+                    <h3 class="text-white text-2xl font-bold mb-2 translate-y-5 group-hover:translate-y-0 transition-transform duration-500">Banking App</h3>
+                    <p class="text-gray-100 text-sm translate-y-5 group-hover:translate-y-0 transition-transform duration-500 delay-75">App Interface Design</p>
+                </div>
+            </div>
+
+            <!-- Photography -->
+            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="photography">
+                <img src="https://images.unsplash.com/photo-1554048612-387768052bf7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Photography" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm">
+                    <h3 class="text-white text-2xl font-bold mb-2 translate-y-5 group-hover:translate-y-0 transition-transform duration-500">Urban Portrait</h3>
+                    <p class="text-gray-100 text-sm translate-y-5 group-hover:translate-y-0 transition-transform duration-500 delay-75">Photography</p>
+                </div>
+            </div>
+
+            <!-- Graphic Design -->
+            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="graphic">
+                <img src="https://images.unsplash.com/photo-1626785774573-4b799314348d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Graphic Design" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm">
+                    <h3 class="text-white text-2xl font-bold mb-2 translate-y-5 group-hover:translate-y-0 transition-transform duration-500">Brand Identity</h3>
+                    <p class="text-gray-100 text-sm translate-y-5 group-hover:translate-y-0 transition-transform duration-500 delay-75">Graphic Design</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Sección Contacto -->
+    <section id="contact" class="py-24 px-6 md:px-[10%] bg-dark">
+        <div class="text-center mb-12">
+            <p class="lang-text text-primary font-bold tracking-[2px] text-[13px] uppercase" data-key="contact_subtitle">GET IN TOUCH</p>
+            <h2 class="lang-text text-[40px] font-bold mt-2" data-key="contact_title">Contact Me</h2>
+        </div>
+
+        <div class="flex flex-col items-center text-center gap-12 max-w-[900px] mx-auto">
+            <p class="lang-text contact-message text-lg text-secondary leading-loose max-w-[700px]" data-key="contact_msg">
+                I'm always interested in hearing about new projects and opportunities. Whether you have a question or just want to say hi, feel free to reach out. Let's create something amazing together!
+            </p>
+
+            <!-- Tarjetas Info -->
+            <div class="flex flex-wrap justify-center gap-8 w-full">
+                <div class="flex-1 min-w-[250px] bg-white/5 border border-white/5 p-8 rounded-2xl flex flex-col items-center hover:-translate-y-2 hover:border-primary hover:bg-primary/5 transition-all duration-300 group">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                        <i class="fas fa-envelope text-3xl text-primary"></i>
+                    </div>
+                    <h4 class="lang-text text-lg font-bold text-white mb-2" data-key="info_email_title">Email</h4>
+                    <p class="text-secondary text-[15px] break-all">
+                        <a href="mailto:pablomigueldiazvizcaino@gmail.com" class="hover:text-primary transition-colors">pablomigueldiazvizcaino@gmail.com</a>
+                    </p>
+                </div>
+
+                <div class="flex-1 min-w-[250px] bg-white/5 border border-white/5 p-8 rounded-2xl flex flex-col items-center hover:-translate-y-2 hover:border-primary hover:bg-primary/5 transition-all duration-300 group">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                        <i class="fas fa-phone text-3xl text-primary"></i>
+                    </div>
+                    <h4 class="lang-text text-lg font-bold text-white mb-2" data-key="info_phone_title">Phone</h4>
+                    <p class="text-secondary text-[15px]">
+                        <a href="tel:+18097795503" class="hover:text-primary transition-colors">+1 (809) 779-5503</a>
+                    </p>
+                </div>
+
+                <div class="flex-1 min-w-[250px] bg-white/5 border border-white/5 p-8 rounded-2xl flex flex-col items-center hover:-translate-y-2 hover:border-primary hover:bg-primary/5 transition-all duration-300 group">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                        <i class="fas fa-map-marker-alt text-3xl text-primary"></i>
+                    </div>
+                    <h4 class="lang-text text-lg font-bold text-white mb-2" data-key="info_loc_title">Location</h4>
+                    <p class="text-secondary text-[15px]">Santo Domingo, DR</p>
+                </div>
+            </div>
+
+            <!-- Botones Sociales Grandes -->
+            <div class="w-full">
+                <h3 class="lang-text text-white mb-6 font-medium text-lg" data-key="social_title">Connect on Social Media</h3>
+                <div class="flex flex-wrap justify-center gap-5">
+                    <a href="https://www.linkedin.com/in/pablo-diaz-designer/" target="_blank" class="px-9 py-3.5 border-2 border-primary rounded-full text-white font-semibold flex items-center gap-3 hover:bg-primary hover:shadow-glow hover:-translate-y-1 transition-all duration-300">
+                        <i class="fab fa-linkedin-in text-xl"></i> LinkedIn
+                    </a>
+                    <a href="https://www.behance.net/pablodiaz1920" target="_blank" class="px-9 py-3.5 border-2 border-primary rounded-full text-white font-semibold flex items-center gap-3 hover:bg-primary hover:shadow-glow hover:-translate-y-1 transition-all duration-300">
+                        <i class="fab fa-behance text-xl"></i> Behance
+                    </a>
+                    <a href="https://instagram.com" target="_blank" class="px-9 py-3.5 border-2 border-primary rounded-full text-white font-semibold flex items-center gap-3 hover:bg-primary hover:shadow-glow hover:-translate-y-1 transition-all duration-300">
+                        <i class="fab fa-instagram text-xl"></i> Instagram
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-darker py-10 px-6 md:px-[10%] flex flex-col md:flex-row justify-between items-center border-t border-[#222]">
+        <p class="text-secondary text-sm text-center md:text-left mb-4 md:mb-0">
+            &copy; 2024 Pablo Diaz. <span class="lang-text" data-key="footer_rights">All rights reserved.</span>
+        </p>
+        <div class="flex gap-6 text-lg text-secondary">
+            <a href="https://www.linkedin.com/in/pablo-diaz-designer/" target="_blank" class="hover:text-primary transition-colors"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.behance.net/pablodiaz1920" target="_blank" class="hover:text-primary transition-colors"><i class="fab fa-behance"></i></a>
+            <a href="https://instagram.com" target="_blank" class="hover:text-primary transition-colors"><i class="fab fa-instagram"></i></a>
+        </div>
+    </footer>
+
+    <!-- Scroll To Top Button -->
+    <button id="scrollTopBtn" class="fixed bottom-10 right-10 z-50 bg-primary text-white w-12 h-12 rounded-full hidden items-center justify-center text-lg shadow-glow hover:bg-[#d11e00] hover:-translate-y-1 transition-all duration-300">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Modal (Lightbox) -->
+    <div id="projectModal" class="hidden fixed inset-0 z-[2000] bg-black/90 backdrop-blur-sm justify-center items-center p-4">
+        <div class="relative w-full max-w-[800px] text-center animate-zoom-in">
+            <span class="close-modal absolute -top-10 right-0 text-white text-4xl font-bold cursor-pointer hover:text-primary transition-colors">&times;</span>
+            <img class="modal-img w-full max-h-[70vh] object-contain rounded-lg shadow-2xl" id="modalImg" src="">
+            <div class="mt-4">
+                <h3 class="modal-title text-2xl font-bold text-primary mb-1" id="modalTitle">Project Title</h3>
+                <div class="modal-tools text-secondary text-lg mb-2 flex justify-center gap-3" id="modalTools"></div>
+                <p class="modal-desc text-secondary" id="modalDesc">Project Category</p>
+                <a href="#" id="modalLink" class="btn btn-primary mt-6 inline-block bg-primary text-white px-8 py-2.5 rounded-full font-semibold hover:shadow-glow transition-shadow" target="_blank" style="display:none;">Visit Website</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts (Lógica de JS original adaptada) -->
+    <script>
+        // --- Translations ---
+        const translations = {
+            en: {
+                nav_home: "Home",
+                nav_about: "About Me",
+                nav_portfolio: "Portfolio",
+                nav_contact: "Contact",
+                greeting: "HI THERE!",
+                im: "I'M",
+                description: "I'm a freelancer based in Dominican Republic, specialized in creating visual experiences and functional interfaces. Passionate about detail and aesthetics.",
+                btn_hire: "HIRE ME",
+                btn_resume: "SEE RESUME",
+                
+                about_subtitle: "WHO I AM",
+                about_title: "About Me",
+                about_bio: "Hello! I'm Pablo Diaz, a multidisciplinary creative passionate about the intersection of design and technology. With a sharp eye for detail and a focus on user experience, I transform complex ideas into elegant digital solutions. Whether it's crafting a pixel-perfect interface or coding a robust website, I give 100% to every project.",
+                lbl_name: "Name:",
+                lbl_from: "From:",
+                lbl_email: "Email:",
+                skills_title: "My Skills & Tools",
+                cat_design: "Graphic & UI Design",
+                cat_dev: "Web Development",
+                cat_media: "Photography & Video",
+                
+                port_subtitle: "MY WORK",
+                port_title: "Latest Projects",
+                cat_all: "All",
+                cat_web: "Website",
+                cat_ux: "UX/UI",
+                cat_photo: "Photography",
+                cat_graphic: "Graphic Design",
+
+                contact_subtitle: "GET IN TOUCH",
+                contact_title: "Contact Me",
+                contact_msg: "I'm always interested in hearing about new projects and opportunities. Whether you have a question or just want to say hi, feel free to reach out. Let's create something amazing together!",
+                info_loc_title: "Location",
+                info_email_title: "Email",
+                info_phone_title: "Phone",
+                social_title: "Connect on Social Media",
+                footer_rights: "All rights reserved."
+            },
+            es: {
+                nav_home: "Inicio",
+                nav_about: "Sobre Mí",
+                nav_portfolio: "Portafolio",
+                nav_contact: "Contacto",
+                greeting: "¡HOLA A TODOS!",
+                im: "SOY",
+                description: "Soy un freelancer radicado en República Dominicana, especializado en crear experiencias visuales e interfaces funcionales. Apasionado por el detalle y la estética.",
+                btn_hire: "CONTRATAR",
+                btn_resume: "VER CV",
+
+                about_subtitle: "QUIÉN SOY",
+                about_title: "Sobre Mí",
+                about_bio: "¡Hola! Soy Pablo Diaz, un creativo multidisciplinario apasionado por la intersección entre diseño y tecnología. Con buen ojo para el detalle y enfoque en la experiencia de usuario, transformo ideas complejas en soluciones digitales elegantes. Ya sea diseñando una interfaz perfecta o programando un sitio web robusto, doy el 100% en cada proyecto.",
+                lbl_name: "Nombre:",
+                lbl_from: "De:",
+                lbl_email: "Correo:",
+                skills_title: "Habilidades y Herramientas",
+                cat_design: "Diseño Gráfico & UI",
+                cat_dev: "Desarrollo Web",
+                cat_media: "Fotografía y Video",
+
+                port_subtitle: "MI TRABAJO",
+                port_title: "Últimos Proyectos",
+                cat_all: "Todos",
+                cat_web: "Sitios Web",
+                cat_ux: "UX/UI",
+                cat_photo: "Fotografía",
+                cat_graphic: "Diseño Gráfico",
+
+                contact_subtitle: "CONTACTO",
+                contact_title: "Escríbeme",
+                contact_msg: "Siempre estoy interesado en escuchar sobre nuevos proyectos y oportunidades. Ya sea que tengas una pregunta o simplemente quieras saludar, no dudes en contactarme. ¡Creemos algo increíble juntos!",
+                info_loc_title: "Ubicación",
+                info_email_title: "Correo",
+                info_phone_title: "Teléfono",
+                social_title: "Conecta en Redes Sociales",
+                footer_rights: "Todos los derechos reservados."
+            }
+        };
+
+        // --- Language Logic ---
+        const languageToggle = document.getElementById('language-toggle');
+        const textElements = document.querySelectorAll('.lang-text');
+
+        function changeLanguage() {
+            const lang = languageToggle.checked ? 'es' : 'en';
+
+            textElements.forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[lang][key]) {
+                    element.style.opacity = 0;
+                    setTimeout(() => {
+                        element.textContent = translations[lang][key];
+                        element.style.opacity = 1;
+                    }, 200);
+                }
+            });
+        }
+
+        languageToggle.addEventListener('change', changeLanguage);
+
+        // --- Portfolio Filter Logic ---
+        const filterBtns = document.querySelectorAll('.tab-btn');
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remover clases activas de Tailwind (bg-primary text-white border-primary)
+                filterBtns.forEach(b => {
+                    b.classList.remove('bg-primary', 'text-white', 'border-primary');
+                    b.classList.add('text-secondary', 'border-white/10');
+                });
+                
+                // Añadir clases activas
+                btn.classList.remove('text-secondary', 'border-white/10');
+                btn.classList.add('bg-primary', 'text-white', 'border-primary');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                portfolioItems.forEach(item => {
+                    if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                        item.classList.remove('hidden');
+                        item.classList.add('block');
+                        // Reiniciar animación
+                        item.classList.remove('animate-fade-in');
+                        void item.offsetWidth; // Trigger reflow
+                        item.classList.add('animate-fade-in');
+                    } else {
+                        item.classList.remove('block');
+                        item.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // Activar el primer botón por defecto (Estilo)
+        const activeBtn = document.querySelector('.tab-btn.active');
+        if(activeBtn) {
+            activeBtn.classList.remove('text-secondary', 'border-white/10');
+            activeBtn.classList.add('bg-primary', 'text-white', 'border-primary');
+        }
+
+        // --- Scroll To Top Logic ---
+        const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+        window.onscroll = function() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                scrollTopBtn.style.display = "flex";
+            } else {
+                scrollTopBtn.style.display = "none";
+            }
+        };
+
+        scrollTopBtn.addEventListener("click", function() {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+
+        // --- Modal (Lightbox) Logic ---
+        const modal = document.getElementById("projectModal");
+        const modalImg = document.getElementById("modalImg");
+        const modalTitle = document.getElementById("modalTitle");
+        const modalDesc = document.getElementById("modalDesc");
+        const modalLink = document.getElementById("modalLink");
+        const modalTools = document.getElementById("modalTools");
+        const closeModal = document.querySelector(".close-modal");
+
+        portfolioItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const img = item.querySelector("img").src;
+                // Buscar h3 y p dentro del overlay, no direct children
+                const title = item.querySelector("h3").innerText;
+                const desc = item.querySelector("p").innerText;
+                const link = item.getAttribute('data-link');
+                const tools = item.getAttribute('data-tools');
+
+                modal.style.display = "flex";
+                modalImg.src = img;
+                modalTitle.innerText = title;
+                modalDesc.innerText = desc;
+
+                if (link) {
+                    modalLink.href = link;
+                    modalLink.style.display = "inline-block";
+                } else {
+                    modalLink.style.display = "none";
+                }
+
+                if (tools) {
+                    modalTools.innerHTML = tools;
+                    modalTools.style.display = "block";
+                } else {
+                    modalTools.style.display = "none";
+                }
+            });
+        });
+
+        closeModal.addEventListener('click', () => {
+            modal.style.display = "none";
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target == modal) {
+                modal.style.display = "none";
+            }
+        });
+    </script>
+</body>
+</html>
