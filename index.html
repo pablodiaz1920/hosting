@@ -40,6 +40,10 @@
         body {
             background-color: #1a1a1a;
             color: white;
+            /* EFECTO DE PUNTOS (DOT PATTERN) */
+            background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1.5px, transparent 1.5px);
+            background-size: 30px 30px;
+            background-attachment: fixed; /* El fondo se queda fijo al hacer scroll */
         }
         
         /* Ocultar checkbox del toggle de idioma */
@@ -68,67 +72,34 @@
 
         /* Modal Zoom */
         @keyframes zoomIn {
-            from {transform: scale(0.9); opacity: 0;}
+            from {transform: scale(0.95); opacity: 0;}
             to {transform: scale(1); opacity: 1;}
         }
         .animate-zoom-in {
             animation: zoomIn 0.3s ease forwards;
         }
 
-          /* Card container styling */
-        .site-card {
-            width: 350px; /* Fixed width for gallery look */
-            background: black;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #f3f4f6;
-            margin: 20px;
+        /* Loader para el Iframe */
+        .iframe-loader {
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-left-color: #FF2400;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .site-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        /* Estilo para tarjetas 3D */
+        .portfolio-item {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            /* Importante: para que el borde no se pixelee al rotar */
+            will-change: transform; 
         }
-
-        /* Mock browser header */
-        .browser-header {
-            background: #f9fafb;
-            padding: 8px 12px;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid #f3f4f6;
-        }
-
-        .dot { height: 8px; width: 8px; border-radius: 50%; margin-right: 6px; }
-        .dot-red { background: #ff5f56; }
-        .dot-yellow { background: #ffbd2e; }
-        .dot-green { background: #27c93f; }
-
-        /* The viewport window */
-        .viewport {
-            position: relative;
-            width: 100%;
-            height: 250px; /* Smaller height for gallery card */
-            overflow: hidden;
-            background: #fff;
-        }
-
-        /* Scaled iframe to show a mini-version of the site */
-        iframe {
-            width: 1000px; /* Scale down from a larger width */
-            height: 715px;
-            border: none;
-            transform: scale(0.35); /* Zoom out effect */
-            transform-origin: 0 0;
-            pointer-events: none; /* Disables interaction to keep it as a preview */
-        }
-
-        .card-content {
-            padding: 16px;
-        }
-        
     </style>
 </head>
 <body class="font-sans antialiased selection:bg-primary selection:text-white overflow-x-hidden">
@@ -155,7 +126,7 @@
             </div>
         </div>
         
-        <!-- Menú Móvil (Hamburguesa simple) -->
+        <!-- Menú Móvil -->
         <button class="md:hidden text-2xl text-white">
             <i class="fas fa-bars"></i>
         </button>
@@ -195,16 +166,13 @@
 
         <!-- Imagen Hero -->
         <div class="w-full md:w-[400px] h-[380px] md:h-[500px] relative flex justify-center items-center group">
-            <!-- Imagen con fallback -->
             <img src="Pablo Diaz.jpg" alt="Pablo Diaz" class="w-full h-full object-cover rounded-lg grayscale group-hover:grayscale-0 transition-all duration-500 z-10 relative">
-            
-            <!-- Forma decorativa (Borde rojo detrás) -->
             <div class="absolute w-full h-full border-[5px] border-primary top-6 -right-6 z-0 transition-all duration-300 group-hover:top-4 group-hover:-right-4"></div>
         </div>
     </section>
 
-    <!-- Sección About Me -->
-    <section id="about" class="py-24 px-6 md:px-[10%] bg-dark">
+    <!-- Sección About Me (Fondo transparente para ver los puntos) -->
+    <section id="about" class="py-24 px-6 md:px-[10%]">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
             
             <!-- Columna Texto -->
@@ -273,8 +241,8 @@
         </div>
     </section>
 
-    <!-- Sección Portafolio -->
-    <section id="portfolio" class="py-20 px-6 md:px-[10%] bg-[#151515]">
+    <!-- Sección Portafolio (Fondo semi-transparente oscuro) -->
+    <section id="portfolio" class="py-20 px-6 md:px-[10%] bg-black/20">
         <div class="text-center mb-12">
             <p class="lang-text text-primary font-bold tracking-[2px] text-[13px] uppercase" data-key="port_subtitle">MY WORK</p>
             <h2 class="lang-text text-[40px] font-bold mt-2" data-key="port_title">Latest Projects</h2>
@@ -291,90 +259,69 @@
 
         <!-- Grid de Proyectos -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 portfolio-grid">
-
-            <!-- Start of Site Card -->
-    <div class="site-card">
-        <!-- Browser Decoration -->
-        <div class="browser-header">
-            <div class="dot dot-red"></div>
-            <div class="dot dot-yellow"></div>
-            <div class="dot dot-green"></div>
-            <div class="ml-2 text-[10px] text-gray-400 font-mono truncate">Rizos Divinos</div>
-        </div>
-
-        <!-- Site Preview -->
-        <div class="viewport">
-            <iframe 
-                src="https://rizosdivinos.com" 
-                title="Rizos Divinos"
-                loading="lazy">
-            </iframe>
-        </div>
-
-        <!-- Info Section -->
-        <div class="card-content">
-            <div class="flex justify-between items-center mb-2">
-                <h3 class="font-bold text-gray-800 text-lg">Rizos Divinos</h3>
-                <span class="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold uppercase">Live</span>
-            </div>
-            <!--p class="text-sm text-gray-500 mb-4">Beachside brunch and tropical dining experience in Luquillo, PR.</p-->
             
-            <a href="https://rizosdivinos.com" target="_blank" class="block text-center bg-gray-900 text-white text-sm py-2 rounded-lg font-medium hover:bg-gray-800 transition-colors">
-                Visit Website
-            </a>
-        </div>
-    </div>
-    <!-- End of Site Card -->
-            
-            <!-- Rizos Divinos -->
-            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="website" data-link="https://rizosdivinos.com/" data-tools='<i class="fab fa-wordpress"></i> <i class="fab fa-elementor"></i>'>
-                <img src="https://images.unsplash.com/photo-1522337360705-8b13d52b03cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Rizos Divinos" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm">
-                    <h3 class="text-white text-2xl font-bold mb-2 translate-y-5 group-hover:translate-y-0 transition-transform duration-500">Rizos Divinos</h3>
-                    <p class="text-gray-100 text-sm translate-y-5 group-hover:translate-y-0 transition-transform duration-500 delay-75">E-commerce</p>
+            <!-- Rizos Divinos (Tipo Website) -->
+            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="website" data-link="https://rizosdivinos.com/" data-type="iframe" data-tools='<i class="fab fa-wordpress"></i> <i class="fab fa-elementor"></i>'>
+                <!-- USAMOS UN GENERADOR DE CAPTURAS AUTOMÁTICO (mshots de WordPress) -->
+                <img src="https://s0.wp.com/mshots/v1/https://rizosdivinos.com/?w=800&h=600" alt="Rizos Divinos" class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
+                
+                <!-- Overlay con icono de "Preview" -->
+                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm z-30 pointer-events-none">
+                    <div class="mb-3 w-12 h-12 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-md">
+                        <i class="fas fa-eye text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-white text-2xl font-bold mb-1">Rizos Divinos</h3>
+                    <p class="text-gray-100 text-sm">E-commerce</p>
+                    <span class="text-xs text-white/80 mt-2 border border-white/30 px-2 py-1 rounded">Click for Live Preview</span>
                 </div>
             </div>
 
-            <!-- Inklub 787 -->
-            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="website" data-link="https://inklub787.com/" data-tools='<i class="fab fa-wordpress"></i> <i class="fab fa-elementor"></i>'>
-                <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Inklub 787" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm">
-                    <h3 class="text-white text-2xl font-bold mb-2 translate-y-5 group-hover:translate-y-0 transition-transform duration-500">Inklub 787</h3>
-                    <p class="text-gray-100 text-sm translate-y-5 group-hover:translate-y-0 transition-transform duration-500 delay-75">Landing page</p>
+            <!-- Inklub 787 (Tipo Website) -->
+            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="website" data-link="https://inklub787.com/" data-type="iframe" data-tools='<i class="fab fa-wordpress"></i> <i class="fab fa-elementor"></i>'>
+                <!-- USAMOS UN GENERADOR DE CAPTURAS AUTOMÁTICO -->
+                <img src="https://s0.wp.com/mshots/v1/https://inklub787.com/?w=800&h=600" alt="Inklub 787" class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
+                
+                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm z-30 pointer-events-none">
+                    <div class="mb-3 w-12 h-12 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-md">
+                        <i class="fas fa-eye text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-white text-2xl font-bold mb-1">Inklub 787</h3>
+                    <p class="text-gray-100 text-sm">Landing page</p>
+                    <span class="text-xs text-white/80 mt-2 border border-white/30 px-2 py-1 rounded">Click for Live Preview</span>
                 </div>
             </div>
 
-            <!-- Website Template -->
-            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="website">
+            <!-- Website Template (Sin enlace, solo imagen de ejemplo) -->
+            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="website" data-type="image">
                 <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Web Design" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm">
+                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm z-30 pointer-events-none">
                     <h3 class="text-white text-2xl font-bold mb-2 translate-y-5 group-hover:translate-y-0 transition-transform duration-500">Portfolio Template</h3>
                     <p class="text-gray-100 text-sm translate-y-5 group-hover:translate-y-0 transition-transform duration-500 delay-75">Website Development</p>
                 </div>
             </div>
 
             <!-- UX UI -->
-            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="uxui">
+            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="uxui" data-type="image">
                 <img src="https://images.unsplash.com/photo-1586717791821-3f44a5638d48?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="UX Design" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm">
+                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm z-30 pointer-events-none">
                     <h3 class="text-white text-2xl font-bold mb-2 translate-y-5 group-hover:translate-y-0 transition-transform duration-500">Banking App</h3>
                     <p class="text-gray-100 text-sm translate-y-5 group-hover:translate-y-0 transition-transform duration-500 delay-75">App Interface Design</p>
                 </div>
             </div>
 
             <!-- Photography -->
-            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="photography">
+            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="photography" data-type="image">
                 <img src="https://images.unsplash.com/photo-1554048612-387768052bf7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Photography" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm">
+                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm z-30 pointer-events-none">
                     <h3 class="text-white text-2xl font-bold mb-2 translate-y-5 group-hover:translate-y-0 transition-transform duration-500">Urban Portrait</h3>
                     <p class="text-gray-100 text-sm translate-y-5 group-hover:translate-y-0 transition-transform duration-500 delay-75">Photography</p>
                 </div>
             </div>
 
             <!-- Graphic Design -->
-            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="graphic">
+            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="graphic" data-type="image">
                 <img src="https://images.unsplash.com/photo-1626785774573-4b799314348d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Graphic Design" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm">
+                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm z-30 pointer-events-none">
                     <h3 class="text-white text-2xl font-bold mb-2 translate-y-5 group-hover:translate-y-0 transition-transform duration-500">Brand Identity</h3>
                     <p class="text-gray-100 text-sm translate-y-5 group-hover:translate-y-0 transition-transform duration-500 delay-75">Graphic Design</p>
                 </div>
@@ -383,8 +330,8 @@
         </div>
     </section>
 
-    <!-- Sección Contacto -->
-    <section id="contact" class="py-24 px-6 md:px-[10%] bg-dark">
+    <!-- Sección Contacto (Fondo transparente) -->
+    <section id="contact" class="py-24 px-6 md:px-[10%]">
         <div class="text-center mb-12">
             <p class="lang-text text-primary font-bold tracking-[2px] text-[13px] uppercase" data-key="contact_subtitle">GET IN TOUCH</p>
             <h2 class="lang-text text-[40px] font-bold mt-2" data-key="contact_title">Contact Me</h2>
@@ -447,7 +394,7 @@
     <!-- Footer -->
     <footer class="bg-darker py-10 px-6 md:px-[10%] flex flex-col md:flex-row justify-between items-center border-t border-[#222]">
         <p class="text-secondary text-sm text-center md:text-left mb-4 md:mb-0">
-            &copy; 2026 Pablo Diaz. <span class="lang-text" data-key="footer_rights">All rights reserved.</span>
+            &copy; 2024 Pablo Diaz. <span class="lang-text" data-key="footer_rights">All rights reserved.</span>
         </p>
         <div class="flex gap-6 text-lg text-secondary">
             <a href="https://www.linkedin.com/in/pablo-diaz-designer/" target="_blank" class="hover:text-primary transition-colors"><i class="fab fa-linkedin-in"></i></a>
@@ -461,21 +408,50 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <!-- Modal (Lightbox) -->
-    <div id="projectModal" class="hidden fixed inset-0 z-[2000] bg-black/90 backdrop-blur-sm justify-center items-center p-4">
-        <div class="relative w-full max-w-[800px] text-center animate-zoom-in">
-            <span class="close-modal absolute -top-10 right-0 text-white text-4xl font-bold cursor-pointer hover:text-primary transition-colors">&times;</span>
-            <img class="modal-img w-full max-h-[70vh] object-contain rounded-lg shadow-2xl" id="modalImg" src="">
-            <div class="mt-4">
+    <!-- Modal (Lightbox Híbrido: Imagen o Iframe) -->
+    <div id="projectModal" class="hidden fixed inset-0 z-[2000] bg-black/95 backdrop-blur-md justify-center items-center p-4">
+        <div class="relative w-full h-full max-w-[1200px] max-h-[90vh] flex flex-col items-center justify-center animate-zoom-in">
+            <!-- Botón Cerrar -->
+            <span class="close-modal absolute -top-10 right-0 md:-right-10 text-white text-4xl font-bold cursor-pointer hover:text-primary transition-colors">&times;</span>
+            
+            <!-- Contenedor de Medios (Imagen o Iframe) -->
+            <div class="w-full h-full flex items-center justify-center overflow-hidden rounded-lg bg-black border border-white/10 shadow-2xl relative" id="mediaContainer">
+                
+                <!-- 1. Imagen Estática -->
+                <img class="hidden w-full h-auto max-h-[70vh] object-contain" id="modalImg" src="">
+                
+                <!-- 2. Iframe para Sitios Web -->
+                <div id="iframeContainer" class="hidden w-full h-full bg-white relative">
+                    <!-- Loader -->
+                    <div id="iframeLoader" class="absolute inset-0 flex flex-col items-center justify-center bg-dark z-20">
+                        <div class="iframe-loader mb-4"></div>
+                        <p class="text-secondary text-sm">Loading Preview...</p>
+                    </div>
+                    <!-- Fallback message -->
+                    <div class="absolute inset-0 flex flex-col items-center justify-center bg-dark -z-10">
+                        <p class="text-secondary mb-4">Preview not available for this site.</p>
+                        <a href="#" id="fallbackLink" target="_blank" class="text-primary hover:underline">Open in new tab</a>
+                    </div>
+                    <iframe id="modalIframe" src="" class="w-full h-full border-0 z-10" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+                </div>
+
+            </div>
+
+            <!-- Texto descriptivo (Título y Herramientas) -->
+            <div class="mt-4 text-center w-full bg-darker/80 p-4 rounded-xl border border-white/5 backdrop-blur-sm">
                 <h3 class="modal-title text-2xl font-bold text-primary mb-1" id="modalTitle">Project Title</h3>
                 <div class="modal-tools text-secondary text-lg mb-2 flex justify-center gap-3" id="modalTools"></div>
                 <p class="modal-desc text-secondary" id="modalDesc">Project Category</p>
-                <a href="#" id="modalLink" class="btn btn-primary mt-6 inline-block bg-primary text-white px-8 py-2.5 rounded-full font-semibold hover:shadow-glow transition-shadow" target="_blank" style="display:none;">Visit Website</a>
+                
+                <!-- Botón de visitar sitio (Visible para websites) -->
+                <a href="#" id="modalLink" class="btn btn-primary mt-4 inline-block bg-primary text-white px-8 py-2.5 rounded-full font-semibold hover:shadow-glow transition-all hover:bg-white hover:text-primary" target="_blank" style="display:none;">
+                    Visit Website <i class="fas fa-external-link-alt ml-2"></i>
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- Scripts (Lógica de JS original adaptada) -->
+    <!-- Scripts -->
     <script>
         // --- Translations ---
         const translations = {
@@ -489,7 +465,6 @@
                 description: "I'm a freelancer based in Dominican Republic, specialized in creating visual experiences and functional interfaces. Passionate about detail and aesthetics.",
                 btn_hire: "HIRE ME",
                 btn_resume: "SEE RESUME",
-                
                 about_subtitle: "WHO I AM",
                 about_title: "About Me",
                 about_bio: "Hello! I'm Pablo Diaz, a multidisciplinary creative passionate about the intersection of design and technology. With a sharp eye for detail and a focus on user experience, I transform complex ideas into elegant digital solutions. Whether it's crafting a pixel-perfect interface or coding a robust website, I give 100% to every project.",
@@ -500,7 +475,6 @@
                 cat_design: "Graphic & UI Design",
                 cat_dev: "Web Development",
                 cat_media: "Photography & Video",
-                
                 port_subtitle: "MY WORK",
                 port_title: "Latest Projects",
                 cat_all: "All",
@@ -508,7 +482,6 @@
                 cat_ux: "UX/UI",
                 cat_photo: "Photography",
                 cat_graphic: "Graphic Design",
-
                 contact_subtitle: "GET IN TOUCH",
                 contact_title: "Contact Me",
                 contact_msg: "I'm always interested in hearing about new projects and opportunities. Whether you have a question or just want to say hi, feel free to reach out. Let's create something amazing together!",
@@ -528,7 +501,6 @@
                 description: "Soy un freelancer radicado en República Dominicana, especializado en crear experiencias visuales e interfaces funcionales. Apasionado por el detalle y la estética.",
                 btn_hire: "CONTRATAR",
                 btn_resume: "VER CV",
-
                 about_subtitle: "QUIÉN SOY",
                 about_title: "Sobre Mí",
                 about_bio: "¡Hola! Soy Pablo Diaz, un creativo multidisciplinario apasionado por la intersección entre diseño y tecnología. Con buen ojo para el detalle y enfoque en la experiencia de usuario, transformo ideas complejas en soluciones digitales elegantes. Ya sea diseñando una interfaz perfecta o programando un sitio web robusto, doy el 100% en cada proyecto.",
@@ -539,7 +511,6 @@
                 cat_design: "Diseño Gráfico & UI",
                 cat_dev: "Desarrollo Web",
                 cat_media: "Fotografía y Video",
-
                 port_subtitle: "MI TRABAJO",
                 port_title: "Últimos Proyectos",
                 cat_all: "Todos",
@@ -547,7 +518,6 @@
                 cat_ux: "UX/UI",
                 cat_photo: "Fotografía",
                 cat_graphic: "Diseño Gráfico",
-
                 contact_subtitle: "CONTACTO",
                 contact_title: "Escríbeme",
                 contact_msg: "Siempre estoy interesado en escuchar sobre nuevos proyectos y oportunidades. Ya sea que tengas una pregunta o simplemente quieras saludar, no dudes en contactarme. ¡Creemos algo increíble juntos!",
@@ -577,7 +547,6 @@
                 }
             });
         }
-
         languageToggle.addEventListener('change', changeLanguage);
 
         // --- Portfolio Filter Logic ---
@@ -586,13 +555,11 @@
 
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Remover clases activas de Tailwind (bg-primary text-white border-primary)
                 filterBtns.forEach(b => {
                     b.classList.remove('bg-primary', 'text-white', 'border-primary');
                     b.classList.add('text-secondary', 'border-white/10');
                 });
                 
-                // Añadir clases activas
                 btn.classList.remove('text-secondary', 'border-white/10');
                 btn.classList.add('bg-primary', 'text-white', 'border-primary');
 
@@ -602,9 +569,8 @@
                     if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
                         item.classList.remove('hidden');
                         item.classList.add('block');
-                        // Reiniciar animación
                         item.classList.remove('animate-fade-in');
-                        void item.offsetWidth; // Trigger reflow
+                        void item.offsetWidth;
                         item.classList.add('animate-fade-in');
                     } else {
                         item.classList.remove('block');
@@ -614,16 +580,15 @@
             });
         });
 
-        // Activar el primer botón por defecto (Estilo)
+        // Activar primer botón
         const activeBtn = document.querySelector('.tab-btn.active');
         if(activeBtn) {
             activeBtn.classList.remove('text-secondary', 'border-white/10');
             activeBtn.classList.add('bg-primary', 'text-white', 'border-primary');
         }
 
-        // --- Scroll To Top Logic ---
+        // --- Scroll To Top ---
         const scrollTopBtn = document.getElementById("scrollTopBtn");
-
         window.onscroll = function() {
             if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
                 scrollTopBtn.style.display = "flex";
@@ -631,17 +596,18 @@
                 scrollTopBtn.style.display = "none";
             }
         };
-
         scrollTopBtn.addEventListener("click", function() {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
+            window.scrollTo({ top: 0, behavior: "smooth" });
         });
 
-        // --- Modal (Lightbox) Logic ---
+        // --- Modal & Iframe Logic ---
         const modal = document.getElementById("projectModal");
         const modalImg = document.getElementById("modalImg");
+        const iframeContainer = document.getElementById("iframeContainer");
+        const modalIframe = document.getElementById("modalIframe");
+        const iframeLoader = document.getElementById("iframeLoader");
+        const fallbackLink = document.getElementById("fallbackLink");
+        
         const modalTitle = document.getElementById("modalTitle");
         const modalDesc = document.getElementById("modalDesc");
         const modalLink = document.getElementById("modalLink");
@@ -649,26 +615,92 @@
         const closeModal = document.querySelector(".close-modal");
 
         portfolioItems.forEach(item => {
+            // --- NUEVO: Lógica de Tilt 3D ---
+            // Agregar elemento shine si no existe
+            if(!item.querySelector('.shine')) {
+                const shine = document.createElement('div');
+                shine.className = 'shine absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-transparent opacity-0 transition-opacity duration-300 pointer-events-none z-20';
+                item.appendChild(shine);
+            }
+
+            item.addEventListener('mousemove', (e) => {
+                const rect = item.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                // Calcular rotación (máximo 10 grados)
+                const rotateX = ((y - centerY) / centerY) * -10; 
+                const rotateY = ((x - centerX) / centerX) * 10;
+
+                // Aplicar transformación
+                item.style.transition = 'transform 0.1s ease-out';
+                item.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                
+                // Mover efecto Shine
+                const shine = item.querySelector('.shine');
+                if(shine) {
+                    shine.style.opacity = '1';
+                    shine.style.backgroundImage = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.2), transparent 40%)`;
+                }
+            });
+
+            item.addEventListener('mouseleave', () => {
+                item.style.transition = 'transform 0.5s ease-out';
+                item.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+                
+                const shine = item.querySelector('.shine');
+                if(shine) {
+                    shine.style.opacity = '0';
+                }
+            });
+
+            // --- Lógica Click (Modal) ---
             item.addEventListener('click', () => {
+                const type = item.getAttribute('data-type'); // 'image' or 'iframe'
                 const img = item.querySelector("img").src;
-                // Buscar h3 y p dentro del overlay, no direct children
                 const title = item.querySelector("h3").innerText;
                 const desc = item.querySelector("p").innerText;
                 const link = item.getAttribute('data-link');
                 const tools = item.getAttribute('data-tools');
 
                 modal.style.display = "flex";
-                modalImg.src = img;
                 modalTitle.innerText = title;
                 modalDesc.innerText = desc;
 
-                if (link) {
+                // Reset display
+                modalImg.classList.add('hidden');
+                iframeContainer.classList.add('hidden');
+                modalLink.style.display = "none";
+                
+                // Lógica de tipo
+                if (type === 'iframe' && link) {
+                    // Mostrar modo Iframe
+                    iframeContainer.classList.remove('hidden');
+                    iframeLoader.style.display = 'flex'; // Mostrar loader
+                    modalIframe.src = link;
+                    fallbackLink.href = link;
+                    
+                    // Cuando iframe carga, ocultar loader
+                    modalIframe.onload = function() {
+                        iframeLoader.style.display = 'none';
+                    };
+                    
+                    // Botón visitar también visible
                     modalLink.href = link;
                     modalLink.style.display = "inline-block";
+                    
                 } else {
-                    modalLink.style.display = "none";
+                    // Mostrar modo Imagen
+                    modalImg.src = img;
+                    modalImg.classList.remove('hidden');
+                    // Stop iframe
+                    modalIframe.src = "";
                 }
 
+                // Herramientas
                 if (tools) {
                     modalTools.innerHTML = tools;
                     modalTools.style.display = "block";
@@ -678,13 +710,16 @@
             });
         });
 
-        closeModal.addEventListener('click', () => {
+        // Cerrar Modal
+        function closeProjectModal() {
             modal.style.display = "none";
-        });
+            modalIframe.src = ""; // Detener carga del sitio al cerrar
+        }
 
+        closeModal.addEventListener('click', closeProjectModal);
         window.addEventListener('click', (e) => {
             if (e.target == modal) {
-                modal.style.display = "none";
+                closeProjectModal();
             }
         });
     </script>
