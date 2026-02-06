@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,11 @@
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Configuración personalizada de Tailwind -->
     <script>
         tailwind.config = {
@@ -51,38 +53,57 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1; /* Detrás de todo el contenido */
-            pointer-events: none; /* Permite clicks a través del canvas */
+            z-index: -1;
+            /* Detrás de todo el contenido */
+            pointer-events: none;
+            /* Permite clicks a través del canvas */
         }
-        
+
         /* Ocultar checkbox del toggle de idioma */
         #language-toggle {
             display: none;
         }
 
         /* Lógica visual del toggle de idioma */
-        #language-toggle:not(:checked) ~ .switch-label .en {
+        #language-toggle:not(:checked)~.switch-label .en {
             opacity: 1;
             color: #FF2400;
         }
-        #language-toggle:checked ~ .switch-label .es {
+
+        #language-toggle:checked~.switch-label .es {
             opacity: 1;
             color: #FF2400;
         }
 
         /* Animaciones */
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
+
         .animate-fade-in {
             animation: fadeIn 0.5s ease forwards;
         }
 
         @keyframes zoomIn {
-            from {transform: scale(0.95); opacity: 0;}
-            to {transform: scale(1); opacity: 1;}
+            from {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
+
         .animate-zoom-in {
             animation: zoomIn 0.3s ease forwards;
         }
@@ -96,49 +117,71 @@
             height: 40px;
             animation: spin 1s linear infinite;
         }
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Estilo para tarjetas 3D */
         .portfolio-item {
             transform-style: preserve-3d;
             perspective: 1000px;
-            will-change: transform; 
+            will-change: transform;
         }
     </style>
 </head>
+
 <body class="font-sans antialiased selection:bg-primary selection:text-white">
 
     <!-- CANVAS DE FONDO (PARTÍCULAS) -->
     <canvas id="particles-canvas"></canvas>
 
     <!-- Navegación -->
-    <nav class="fixed w-full top-0 z-50 bg-[#1a1a1a]/80 backdrop-blur-md border-b border-white/5 px-6 md:px-[8%] py-5 flex justify-between items-center transition-all duration-300">
-        <a href="#" class="text-2xl font-extrabold tracking-wide text-white">PABLO<span class="text-primary">.</span></a>
-        
+    <nav
+        class="fixed w-full top-0 z-50 bg-[#1a1a1a]/80 backdrop-blur-md border-b border-white/5 px-6 md:px-[8%] py-5 flex justify-between items-center transition-all duration-300">
+        <a href="#" class="text-2xl font-extrabold tracking-wide text-white">PABLO<span
+                class="text-primary">.</span></a>
+
         <div class="hidden md:flex items-center gap-8">
             <div class="flex gap-8">
-                <a href="#home" class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300" data-key="nav_home">Home</a>
-                <a href="#about" class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300" data-key="nav_about">About Me</a>
-                <a href="#experience" class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300" data-key="nav_exp">Experience</a>
+                <a href="#home"
+                    class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300"
+                    data-key="nav_home">Home</a>
+                <a href="#about"
+                    class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300"
+                    data-key="nav_about">About Me</a>
+                <a href="#experience"
+                    class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300"
+                    data-key="nav_exp">Experience</a>
                 <!-- Nuevo enlace de Educación -->
-                <a href="#education" class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300" data-key="nav_edu">Education</a>
-                <a href="#portfolio" class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300" data-key="nav_portfolio">Portfolio</a>
-                <a href="#contact" class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300" data-key="nav_contact">Contact</a>
+                <a href="#education"
+                    class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300"
+                    data-key="nav_edu">Education</a>
+                <a href="#portfolio"
+                    class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300"
+                    data-key="nav_portfolio">Portfolio</a>
+                <a href="#contact"
+                    class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300"
+                    data-key="nav_contact">Contact</a>
             </div>
-            
+
             <!-- Interruptor de Idioma -->
             <div class="flex items-center ml-4">
                 <input type="checkbox" id="language-toggle">
-                <label for="language-toggle" class="switch-label cursor-pointer bg-glass px-3 py-1.5 rounded-full border border-white/10 flex gap-2.5 text-xs font-bold select-none">
+                <label for="language-toggle"
+                    class="switch-label cursor-pointer bg-glass px-3 py-1.5 rounded-full border border-white/10 flex gap-2.5 text-xs font-bold select-none">
                     <span class="en opacity-30 transition-opacity duration-300">EN</span>
                     <span class="es opacity-30 transition-opacity duration-300">ES</span>
                 </label>
             </div>
         </div>
-        
+
         <!-- Menú Móvil -->
         <button class="md:hidden text-2xl text-white">
             <i class="fas fa-bars"></i>
@@ -147,54 +190,79 @@
 
     <!-- Sección Hero -->
     <section id="home" class="min-h-screen pt-32 pb-16 px-6 md:px-[8%] flex items-center justify-center">
-        
+
         <!-- Contenedor con ancho máximo de 1200px -->
-        <div class="w-full max-w-[1000px] flex flex-col-reverse md:flex-row items-center justify-between gap-12">
-            
+        <div class="w-full max-w-[1200px] flex flex-col-reverse md:flex-row items-center justify-between gap-12">
+
             <!-- Texto Hero -->
             <div class="w-full md:w-1/2 z-10 text-center md:text-left">
-                <span class="greeting lang-text block text-lg font-semibold tracking-[3px] text-secondary mb-4" data-key="greeting">HI THERE!</span>
+                <span class="greeting lang-text block text-lg font-semibold tracking-[3px] text-secondary mb-4"
+                    data-key="greeting">HI THERE!</span>
                 <h1 class="text-5xl md:text-[65px] leading-[1.1] font-bold mb-6">
                     <span class="lang-text" data-key="im">I'M</span> <span class="text-primary">PABLO</span>
                 </h1>
-                
-                <div class="roles inline-block bg-primary text-white px-5 py-2 font-semibold text-sm mb-8 skew-x-[-10deg]">
+
+                <div
+                    class="roles inline-block bg-primary text-white px-5 py-2 font-semibold text-sm mb-8 skew-x-[-10deg]">
                     <span class="block skew-x-[10deg]">
                         Web Designer // UX UI Designer // Photographer
                     </span>
                 </div>
 
-                <p class="description lang-text text-secondary leading-loose mb-10 text-base max-w-[90%] mx-auto md:mx-0" data-key="description">
-                    I'm a designer based in Dominican Republic, specialized in creating visual experiences and functional interfaces. Passionate about detail and aesthetics.
+                <p class="description lang-text text-secondary leading-loose mb-10 text-base max-w-[90%] mx-auto md:mx-0"
+                    data-key="description">
+                    I'm a designer based in Dominican Republic, specialized in creating visual experiences and
+                    functional interfaces. Passionate about detail and aesthetics.
                 </p>
 
                 <div class="flex gap-5 justify-center md:justify-start mb-10">
-                    <a href="#contact" class="lang-text btn-primary px-9 py-3.5 rounded-full font-semibold text-sm bg-primary text-white border-2 border-primary shadow-glow hover:bg-transparent hover:text-primary hover:shadow-glow-hover hover:-translate-y-1 transition-all duration-300" data-key="btn_hire">HIRE ME</a>
-                    <a href="#portfolio" class="lang-text btn-secondary px-9 py-3.5 rounded-full font-semibold text-sm bg-transparent text-white border-2 border-white/20 hover:border-primary hover:text-primary transition-all duration-300" data-key="nav_portfolio">PORTFOLIO</a>
+                    <a href="#contact"
+                        class="lang-text btn-primary px-9 py-3.5 rounded-full font-semibold text-sm bg-primary text-white border-2 border-primary shadow-glow hover:bg-transparent hover:text-primary hover:shadow-glow-hover hover:-translate-y-1 transition-all duration-300"
+                        data-key="btn_hire">HIRE ME</a>
+                    <a href="#portfolio"
+                        class="lang-text btn-secondary px-9 py-3.5 rounded-full font-semibold text-sm bg-transparent text-white border-2 border-white/20 hover:border-primary hover:text-primary transition-all duration-300"
+                        data-key="nav_portfolio">PORTFOLIO</a>
                 </div>
 
                 <div class="flex gap-6 justify-center md:justify-start text-xl text-secondary">
-                    <a href="https://www.linkedin.com/in/pablo-diaz-designer/" target="_blank" class="hover:text-primary hover:-translate-y-1 transition-all duration-300"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="https://www.behance.net/pablodiaz1920" target="_blank" class="hover:text-primary hover:-translate-y-1 transition-all duration-300"><i class="fab fa-behance"></i></a>
+                    <a href="https://www.linkedin.com/in/pablo-diaz-designer/" target="_blank"
+                        class="hover:text-primary hover:-translate-y-1 transition-all duration-300"><i
+                            class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.behance.net/pablodiaz1920" target="_blank"
+                        class="hover:text-primary hover:-translate-y-1 transition-all duration-300"><i
+                            class="fab fa-behance"></i></a>
                 </div>
             </div>
 
             <!-- Imagen Hero -->
-            <div class="w-full md:w-[400px] h-[380px] md:h-[500px] relative flex justify-center items-center group shrink-0">
-                <img src="Pablo Diaz2.jpeg" alt="Pablo Diaz" class="w-full h-full object-cover rounded-lg grayscale group-hover:grayscale-0 transition-all duration-500 z-10 relative">
-                <div class="absolute w-full h-full border-[5px] border-primary top-6 -right-6 z-0 transition-all duration-300 group-hover:top-4 group-hover:-right-4"></div>
+            <div
+                class="w-full md:w-[400px] h-[380px] md:h-[500px] relative flex justify-center items-center group shrink-0">
+                <img src="Pablo Diaz2.jpeg" alt="Pablo Diaz"
+                    class="w-full h-full object-cover rounded-lg grayscale group-hover:grayscale-0 transition-all duration-500 z-10 relative">
+                <div
+                    class="absolute w-full h-full border-[5px] border-primary top-6 -right-6 z-0 transition-all duration-300 group-hover:top-4 group-hover:-right-4">
+                </div>
             </div>
 
         </div>
     </section>
 
     <!-- Sección About Me (Fondo transparente para ver los puntos) -->
-                <p class="lang-text text-primary font-bold tracking-[2px] text-[13px] mb-2 uppercase" data-key="about_subtitle">WHO I AM</p>
+    <section id="about" class="py-24 px-6 md:px-[10%]">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+
+            <!-- Columna Texto -->
+            <div>
+                <p class="lang-text text-primary font-bold tracking-[2px] text-[13px] mb-2 uppercase"
+                    data-key="about_subtitle">WHO I AM</p>
                 <h2 class="lang-text text-[40px] font-bold mb-6 leading-tight" data-key="about_title">About Me</h2>
                 <p class="lang-text bio-text text-secondary leading-relaxed mb-8 text-[15px]" data-key="about_bio">
-                    Hello! I'm Pablo Diaz, a multidisciplinary creative passionate about the intersection of design and technology. With a sharp eye for detail and a focus on user experience, I transform complex ideas into elegant digital solutions. Whether it's crafting a pixel-perfect interface or coding a robust website, I give 100% to every project.
+                    Hello! I'm Pablo Diaz, a multidisciplinary creative passionate about the intersection of design and
+                    technology. With a sharp eye for detail and a focus on user experience, I transform complex ideas
+                    into elegant digital solutions. Whether it's crafting a pixel-perfect interface or coding a robust
+                    website, I give 100% to every project.
                 </p>
-                
+
                 <div class="space-y-4 mb-8">
                     <div class="flex items-center">
                         <span class="lang-text w-20 font-semibold text-white" data-key="lbl_name">Name:</span>
@@ -207,7 +275,8 @@
                     <div class="flex items-center">
                         <span class="lang-text w-20 font-semibold text-white" data-key="lbl_email">Email:</span>
                         <span class="text-secondary">
-                            <a href="mailto:pablomigueldiazvizcaino@gmail.com" class="hover:text-primary transition-colors">pablomigueldiazvizcaino@gmail.com</a>
+                            <a href="mailto:pablomigueldiazvizcaino@gmail.com"
+                                class="hover:text-primary transition-colors">pablomigueldiazvizcaino@gmail.com</a>
                         </span>
                     </div>
                 </div>
@@ -215,20 +284,31 @@
 
             <!-- Columna Skills -->
             <div>
-                <h3 class="lang-text text-2xl mb-8 relative pb-2 inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:h-[3px] after:bg-primary" data-key="skills_title">My Skills & Tools</h3>
-                
+                <h3 class="lang-text text-2xl mb-8 relative pb-2 inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:h-[3px] after:bg-primary"
+                    data-key="skills_title">My Skills & Tools</h3>
+
                 <!-- Graphic Design -->
                 <div class="mb-8">
-                    <h4 class="lang-text text-base text-white font-medium mb-4" data-key="cat_design">Graphic & UI Design</h4>
+                    <h4 class="lang-text text-base text-white font-medium mb-4" data-key="cat_design">Graphic & UI
+                        Design</h4>
                     <div class="flex flex-wrap gap-3">
-                        <span class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
-                            <i class="fab fa-figma text-primary group-hover:text-white transition-colors duration-300"></i> Figma
+                        <span
+                            class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
+                            <i
+                                class="fab fa-figma text-primary group-hover:text-white transition-colors duration-300"></i>
+                            Figma
                         </span>
-                        <span class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
-                            <i class="fas fa-pen-nib text-primary group-hover:text-white transition-colors duration-300"></i> Photoshop
+                        <span
+                            class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
+                            <i
+                                class="fas fa-pen-nib text-primary group-hover:text-white transition-colors duration-300"></i>
+                            Photoshop
                         </span>
-                        <span class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
-                            <i class="fas fa-vector-square text-primary group-hover:text-white transition-colors duration-300"></i> Illustrator
+                        <span
+                            class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
+                            <i
+                                class="fas fa-vector-square text-primary group-hover:text-white transition-colors duration-300"></i>
+                            Illustrator
                         </span>
                     </div>
                 </div>
@@ -237,36 +317,61 @@
                 <div class="mb-8">
                     <h4 class="lang-text text-base text-white font-medium mb-4" data-key="cat_dev">Web Development</h4>
                     <div class="flex flex-wrap gap-3">
-                        <span class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
-                            <i class="fab fa-html5 text-primary group-hover:text-white transition-colors duration-300"></i> HTML
+                        <span
+                            class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
+                            <i
+                                class="fab fa-html5 text-primary group-hover:text-white transition-colors duration-300"></i>
+                            HTML
                         </span>
-                        <span class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
-                            <i class="fab fa-css3-alt text-primary group-hover:text-white transition-colors duration-300"></i> CSS
+                        <span
+                            class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
+                            <i
+                                class="fab fa-css3-alt text-primary group-hover:text-white transition-colors duration-300"></i>
+                            CSS
                         </span>
-                        <span class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
-                            <i class="fab fa-wordpress text-primary group-hover:text-white transition-colors duration-300"></i> WordPress
+                        <span
+                            class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
+                            <i
+                                class="fab fa-wordpress text-primary group-hover:text-white transition-colors duration-300"></i>
+                            WordPress
                         </span>
-                        <span class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
-                            <i class="fab fa-elementor text-primary group-hover:text-white transition-colors duration-300"></i> Elementor Pro
+                        <span
+                            class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
+                            <i
+                                class="fab fa-elementor text-primary group-hover:text-white transition-colors duration-300"></i>
+                            Elementor Pro
                         </span>
-                        <span class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
-                            <i class="fas fa-code text-primary group-hover:text-white transition-colors duration-300"></i> Windsurf
+                        <span
+                            class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
+                            <i
+                                class="fas fa-code text-primary group-hover:text-white transition-colors duration-300"></i>
+                            Windsurf
                         </span>
                     </div>
                 </div>
 
                 <!-- Photo & Video -->
                 <div>
-                    <h4 class="lang-text text-base text-white font-medium mb-4" data-key="cat_media">Photography & Video</h4>
+                    <h4 class="lang-text text-base text-white font-medium mb-4" data-key="cat_media">Photography & Video
+                    </h4>
                     <div class="flex flex-wrap gap-3">
-                        <span class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
-                            <i class="fas fa-camera-retro text-primary group-hover:text-white transition-colors duration-300"></i> Lightroom
+                        <span
+                            class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
+                            <i
+                                class="fas fa-camera-retro text-primary group-hover:text-white transition-colors duration-300"></i>
+                            Lightroom
                         </span>
-                        <span class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
-                            <i class="fas fa-video text-primary group-hover:text-white transition-colors duration-300"></i> Premiere
+                        <span
+                            class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
+                            <i
+                                class="fas fa-video text-primary group-hover:text-white transition-colors duration-300"></i>
+                            Premiere
                         </span>
-                        <span class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
-                            <i class="fas fa-magic text-primary group-hover:text-white transition-colors duration-300"></i> After Effects
+                        <span
+                            class="group bg-white/5 px-4 py-2.5 rounded text-[13px] text-secondary border-l-[3px] border-primary flex items-center gap-2 hover:bg-primary hover:text-white hover:translate-x-1 transition-all duration-300 cursor-default">
+                            <i
+                                class="fas fa-magic text-primary group-hover:text-white transition-colors duration-300"></i>
+                            After Effects
                         </span>
                     </div>
                 </div>
@@ -278,29 +383,37 @@
     <!-- NUEVA SECCIÓN: Experiencia Laboral -->
     <section id="experience" class="py-20 px-6 md:px-[10%] bg-black/20">
         <div class="text-center mb-12">
-            <p class="lang-text text-primary font-bold tracking-[2px] text-[13px] uppercase" data-key="exp_subtitle">MY JOURNEY</p>
+            <p class="lang-text text-primary font-bold tracking-[2px] text-[13px] uppercase" data-key="exp_subtitle">MY
+                JOURNEY</p>
             <h2 class="lang-text text-[40px] font-bold mt-2" data-key="exp_title">Work Experience</h2>
         </div>
 
         <div class="max-w-4xl mx-auto space-y-8">
-            
+
             <!-- Experiencia 1 -->
             <div class="relative pl-8 md:pl-0">
                 <div class="md:flex items-center justify-between group">
                     <!-- Linea conectora (Visible en Desktop) -->
-                    <div class="hidden md:block absolute left-0 top-0 bottom-0 w-[1px] bg-white/10 md:left-1/2 md:-ml-[0.5px]"></div>
-                    
+                    <div
+                        class="hidden md:block absolute left-0 top-0 bottom-0 w-[1px] bg-white/10 md:left-1/2 md:-ml-[0.5px]">
+                    </div>
+
                     <!-- Fecha (Izquierda en desktop) -->
                     <div class="md:w-[45%] md:text-right mb-2 md:mb-0 md:pr-8">
-                        <span class="lang-text inline-block bg-white/5 text-primary text-xs font-bold px-3 py-1 rounded-full border border-white/5" data-key="date_1">July 2023 - Present</span>
+                        <span
+                            class="lang-text inline-block bg-white/5 text-primary text-xs font-bold px-3 py-1 rounded-full border border-white/5"
+                            data-key="date_1">July 2023 - Present</span>
                     </div>
 
                     <!-- Punto central -->
-                    <div class="absolute left-0 md:left-1/2 w-4 h-4 bg-primary rounded-full border-4 border-[#1a1a1a] -ml-[5px] md:-ml-[8px] mt-1.5 z-10 shadow-glow"></div>
+                    <div
+                        class="absolute left-0 md:left-1/2 w-4 h-4 bg-primary rounded-full border-4 border-[#1a1a1a] -ml-[5px] md:-ml-[8px] mt-1.5 z-10 shadow-glow">
+                    </div>
 
                     <!-- Tarjeta de Contenido (Derecha en desktop) -->
                     <div class="md:w-[45%] md:pl-8">
-                        <div class="bg-white/5 border border-white/5 p-6 rounded-xl hover:border-primary hover:bg-primary/5 transition-all duration-300 cursor-default">
+                        <div
+                            class="bg-white/5 border border-white/5 p-6 rounded-xl hover:border-primary hover:bg-primary/5 transition-all duration-300 cursor-default">
                             <h3 class="lang-text text-xl font-bold text-white mb-1" data-key="role_1">Web Designer</h3>
                             <h4 class="text-secondary text-sm font-medium mb-2">Caribe Media</h4>
                         </div>
@@ -311,21 +424,30 @@
             <!-- Experiencia 2 -->
             <div class="relative pl-8 md:pl-0">
                 <div class="md:flex items-center justify-between flex-row-reverse group">
-                    <div class="hidden md:block absolute left-0 top-0 bottom-0 w-[1px] bg-white/10 md:left-1/2 md:-ml-[0.5px]"></div>
-                    
+                    <div
+                        class="hidden md:block absolute left-0 top-0 bottom-0 w-[1px] bg-white/10 md:left-1/2 md:-ml-[0.5px]">
+                    </div>
+
                     <!-- Fecha (Derecha en desktop) -->
                     <div class="md:w-[45%] md:text-left mb-2 md:mb-0 md:pl-8">
-                        <span class="lang-text inline-block bg-white/5 text-secondary text-xs font-bold px-3 py-1 rounded-full border border-white/5" data-key="date_2">Sept 2022 - June 2023</span>
+                        <span
+                            class="lang-text inline-block bg-white/5 text-secondary text-xs font-bold px-3 py-1 rounded-full border border-white/5"
+                            data-key="date_2">Sept 2022 - June 2023</span>
                     </div>
 
                     <!-- Punto central -->
-                    <div class="absolute left-0 md:left-1/2 w-4 h-4 bg-[#333] rounded-full border-4 border-[#1a1a1a] -ml-[5px] md:-ml-[8px] mt-1.5 z-10 group-hover:bg-primary transition-colors"></div>
+                    <div
+                        class="absolute left-0 md:left-1/2 w-4 h-4 bg-[#333] rounded-full border-4 border-[#1a1a1a] -ml-[5px] md:-ml-[8px] mt-1.5 z-10 group-hover:bg-primary transition-colors">
+                    </div>
 
                     <!-- Tarjeta de Contenido (Izquierda en desktop) -->
                     <div class="md:w-[45%] md:pr-8">
-                        <div class="bg-white/5 border border-white/5 p-6 rounded-xl hover:border-primary hover:bg-primary/5 transition-all duration-300 cursor-default text-left md:text-right">
-                            <h3 class="lang-text text-xl font-bold text-white mb-1" data-key="role_2">Junior Graphic Designer</h3>
-                            <h4 class="lang-text text-secondary text-sm font-medium mb-2" data-key="company_utesa">Universidad Tecnológica de Santiago - UTESA</h4>
+                        <div
+                            class="bg-white/5 border border-white/5 p-6 rounded-xl hover:border-primary hover:bg-primary/5 transition-all duration-300 cursor-default text-left md:text-right">
+                            <h3 class="lang-text text-xl font-bold text-white mb-1" data-key="role_2">Junior Graphic
+                                Designer</h3>
+                            <h4 class="lang-text text-secondary text-sm font-medium mb-2" data-key="company_utesa">
+                                Universidad Tecnológica de Santiago - UTESA</h4>
                         </div>
                     </div>
                 </div>
@@ -337,25 +459,35 @@
     <!-- NUEVA SECCIÓN: Educación -->
     <section id="education" class="py-20 px-6 md:px-[10%]">
         <div class="text-center mb-12">
-            <p class="lang-text text-primary font-bold tracking-[2px] text-[13px] uppercase" data-key="edu_subtitle">ACADEMIC BACKGROUND</p>
+            <p class="lang-text text-primary font-bold tracking-[2px] text-[13px] uppercase" data-key="edu_subtitle">
+                ACADEMIC BACKGROUND</p>
             <h2 class="lang-text text-[40px] font-bold mt-2" data-key="edu_title">Education</h2>
         </div>
 
         <div class="max-w-4xl mx-auto">
             <!-- Tarjeta de Educación -->
             <div class="relative pl-8 md:pl-0 flex justify-center">
-                <div class="w-full md:w-2/3 bg-white/5 border border-white/5 p-8 rounded-2xl hover:border-primary hover:bg-primary/5 transition-all duration-300 group relative overflow-hidden">
+                <div
+                    class="w-full md:w-2/3 bg-white/5 border border-white/5 p-8 rounded-2xl hover:border-primary hover:bg-primary/5 transition-all duration-300 group relative overflow-hidden">
                     <!-- Icono decorativo de fondo -->
-                    <i class="fas fa-graduation-cap absolute -right-4 -bottom-4 text-9xl text-white/5 group-hover:text-primary/10 transition-colors duration-500"></i>
-                    
-                    <div class="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-6 text-center md:text-left">
-                        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center shrink-0 border border-primary/20 group-hover:bg-primary group-hover:shadow-glow transition-all duration-300">
-                            <i class="fas fa-university text-2xl text-primary group-hover:text-white transition-colors"></i>
+                    <i
+                        class="fas fa-graduation-cap absolute -right-4 -bottom-4 text-9xl text-white/5 group-hover:text-primary/10 transition-colors duration-500"></i>
+
+                    <div
+                        class="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-6 text-center md:text-left">
+                        <div
+                            class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center shrink-0 border border-primary/20 group-hover:bg-primary group-hover:shadow-glow transition-all duration-300">
+                            <i
+                                class="fas fa-university text-2xl text-primary group-hover:text-white transition-colors"></i>
                         </div>
                         <div>
-                            <h3 class="lang-text text-2xl font-bold text-white mb-2" data-key="degree_1">Multimedia Technologist</h3>
-                            <h4 class="lang-text text-primary text-lg font-medium mb-1" data-key="school_1">Instituto Tecnológico de las Américas (ITLA)</h4>
-                            <p class="lang-text text-secondary text-sm leading-relaxed" data-key="edu_desc">Specialized technical training in multimedia production, covering graphic design, web development, and digital content creation.</p>
+                            <h3 class="lang-text text-2xl font-bold text-white mb-2" data-key="degree_1">Multimedia
+                                Technologist</h3>
+                            <h4 class="lang-text text-primary text-lg font-medium mb-1" data-key="school_1">Instituto
+                                Tecnológico de las Américas (ITLA)</h4>
+                            <p class="lang-text text-secondary text-sm leading-relaxed" data-key="edu_desc">Specialized
+                                technical training in multimedia production, covering graphic design, web development,
+                                and digital content creation.</p>
                         </div>
                     </div>
                 </div>
@@ -366,98 +498,158 @@
     <!-- Sección Portafolio (Fondo semi-transparente para contraste) -->
     <section id="portfolio" class="py-20 px-6 md:px-[10%] bg-black/30 backdrop-blur-sm">
         <div class="text-center mb-12">
-            <p class="lang-text text-primary font-bold tracking-[2px] text-[13px] uppercase" data-key="port_subtitle">MY WORK</p>
+            <p class="lang-text text-primary font-bold tracking-[2px] text-[13px] uppercase" data-key="port_subtitle">MY
+                WORK</p>
             <h2 class="lang-text text-[40px] font-bold mt-2" data-key="port_title">Latest Projects</h2>
         </div>
 
         <!-- Pestañas -->
         <div class="flex justify-center flex-wrap gap-4 mb-12">
-            <button class="tab-btn active lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5" data-filter="all" data-key="cat_all">All</button>
-            <button class="tab-btn lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5" data-filter="website" data-key="cat_web">Website</button>
-            <button class="tab-btn lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5" data-filter="uxui" data-key="cat_ux">UX/UI</button>
-            <button class="tab-btn lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5" data-filter="photography" data-key="cat_photo">Photography</button>
-            <button class="tab-btn lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5" data-filter="graphic" data-key="cat_graphic">Graphic Design</button>
+            <button
+                class="tab-btn active lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5"
+                data-filter="all" data-key="cat_all">All</button>
+            <button
+                class="tab-btn lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5"
+                data-filter="website" data-key="cat_web">Website</button>
+            <button
+                class="tab-btn lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5"
+                data-filter="uxui" data-key="cat_ux">UX/UI</button>
+            <button
+                class="tab-btn lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5"
+                data-filter="photography" data-key="cat_photo">Photography</button>
+            <button
+                class="tab-btn lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5"
+                data-filter="graphic" data-key="cat_graphic">Graphic Design</button>
         </div>
 
         <!-- Grid de Proyectos -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 portfolio-grid">
-            
+
             <!-- Rizos Divinos (Tipo Website) -->
-            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="website" data-link="https://rizosdivinos.com/" data-type="iframe" data-tools='<i class="fab fa-wordpress"></i> <i class="fab fa-elementor"></i>'>
-                <img src="https://s0.wp.com/mshots/v1/https://rizosdivinos.com/?w=800&h=600" alt="Rizos Divinos" class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
-                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm z-30 pointer-events-none">
-                    <div class="mb-3 w-12 h-12 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-md">
+            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in"
+                data-category="website" data-link="https://rizosdivinos.com/" data-type="iframe"
+                data-tools='<i class="fab fa-wordpress"></i> <i class="fab fa-elementor"></i>'>
+                <img src="https://s0.wp.com/mshots/v1/https://rizosdivinos.com/?w=800&h=600" alt="Rizos Divinos"
+                    class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
+                <div
+                    class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm z-30 pointer-events-none">
+                    <div
+                        class="mb-3 w-12 h-12 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-md">
                         <i class="fas fa-eye text-white text-xl"></i>
                     </div>
                     <h3 class="text-white text-2xl font-bold mb-1">Rizos Divinos</h3>
                     <p class="text-gray-100 text-sm">E-commerce</p>
-                    <span class="text-xs text-white/80 mt-2 border border-white/30 px-2 py-1 rounded">Click for Live Preview</span>
+                    <span class="text-xs text-white/80 mt-2 border border-white/30 px-2 py-1 rounded">Click for Live
+                        Preview</span>
                 </div>
             </div>
 
             <!-- Inklub 787 (Tipo Website) -->
-            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="website" data-link="https://inklub787.com/" data-type="iframe" data-tools='<i class="fab fa-wordpress"></i> <i class="fab fa-elementor"></i>'>
-                <img src="https://s0.wp.com/mshots/v1/https://inklub787.com/?w=800&h=600" alt="Inklub 787" class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
-                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm z-30 pointer-events-none">
-                    <div class="mb-3 w-12 h-12 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-md">
+            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in"
+                data-category="website" data-link="https://inklub787.com/" data-type="iframe"
+                data-tools='<i class="fab fa-wordpress"></i> <i class="fab fa-elementor"></i>'>
+                <img src="https://s0.wp.com/mshots/v1/https://inklub787.com/?w=800&h=600" alt="Inklub 787"
+                    class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
+                <div
+                    class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm z-30 pointer-events-none">
+                    <div
+                        class="mb-3 w-12 h-12 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-md">
                         <i class="fas fa-eye text-white text-xl"></i>
                     </div>
                     <h3 class="text-white text-2xl font-bold mb-1">Inklub 787</h3>
                     <p class="text-gray-100 text-sm">Landing page</p>
-                    <span class="text-xs text-white/80 mt-2 border border-white/30 px-2 py-1 rounded">Click for Live Preview</span>
+                    <span class="text-xs text-white/80 mt-2 border border-white/30 px-2 py-1 rounded">Click for Live
+                        Preview</span>
                 </div>
             </div>
 
             <!-- NUEVO: Popal PR (Tipo Website) -->
-            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="website" data-link="https://popalpr.com/" data-type="iframe" data-tools='<i class="fab fa-wordpress"></i> <i class="fab fa-elementor"></i>'>
-                <img src="https://s0.wp.com/mshots/v1/https://popalpr.com/?w=800&h=600" alt="Popal PR" class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
-                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm z-30 pointer-events-none">
-                    <div class="mb-3 w-12 h-12 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-md">
+            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in"
+                data-category="website" data-link="https://popalpr.com/" data-type="iframe"
+                data-tools='<i class="fab fa-wordpress"></i> <i class="fab fa-elementor"></i>'>
+                <img src="https://s0.wp.com/mshots/v1/https://popalpr.com/?w=800&h=600" alt="Popal PR"
+                    class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
+                <div
+                    class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm z-30 pointer-events-none">
+                    <div
+                        class="mb-3 w-12 h-12 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-md">
                         <i class="fas fa-eye text-white text-xl"></i>
                     </div>
                     <h3 class="text-white text-2xl font-bold mb-1">Popal PR</h3>
                     <p class="text-gray-100 text-sm">Business Website</p>
-                    <span class="text-xs text-white/80 mt-2 border border-white/30 px-2 py-1 rounded">Click for Live Preview</span>
+                    <span class="text-xs text-white/80 mt-2 border border-white/30 px-2 py-1 rounded">Click for Live
+                        Preview</span>
                 </div>
             </div>
 
             <!-- NUEVO: Study and Learn With Me (Tipo Website) -->
-            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="website" data-link="https://studyandlearnwithme.com/" data-type="iframe" data-tools='<i class="fab fa-wordpress"></i> <i class="fab fa-elementor"></i>'>
-                <img src="https://s0.wp.com/mshots/v1/https://studyandlearnwithme.com/?w=800&h=600" alt="Study and Learn" class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
-                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm z-30 pointer-events-none">
-                    <div class="mb-3 w-12 h-12 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-md">
+            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in"
+                data-category="website" data-link="https://studyandlearnwithme.com/" data-type="iframe"
+                data-tools='<i class="fab fa-wordpress"></i> <i class="fab fa-elementor"></i>'>
+                <img src="https://s0.wp.com/mshots/v1/https://studyandlearnwithme.com/?w=800&h=600"
+                    alt="Study and Learn"
+                    class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110">
+                <div
+                    class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm z-30 pointer-events-none">
+                    <div
+                        class="mb-3 w-12 h-12 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-md">
                         <i class="fas fa-eye text-white text-xl"></i>
                     </div>
                     <h3 class="text-white text-2xl font-bold mb-1">Study & Learn</h3>
                     <p class="text-gray-100 text-sm">Educational Platform</p>
-                    <span class="text-xs text-white/80 mt-2 border border-white/30 px-2 py-1 rounded">Click for Live Preview</span>
+                    <span class="text-xs text-white/80 mt-2 border border-white/30 px-2 py-1 rounded">Click for Live
+                        Preview</span>
                 </div>
             </div>
 
             <!-- UX UI -->
-            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="uxui" data-type="image">
-                <img src="https://images.unsplash.com/photo-1586717791821-3f44a5638d48?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="UX Design" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm z-30 pointer-events-none">
-                    <h3 class="text-white text-2xl font-bold mb-2 translate-y-5 group-hover:translate-y-0 transition-transform duration-500">Banking App</h3>
-                    <p class="text-gray-100 text-sm translate-y-5 group-hover:translate-y-0 transition-transform duration-500 delay-75">App Interface Design</p>
+            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in"
+                data-category="uxui" data-type="image">
+                <img src="https://images.unsplash.com/photo-1586717791821-3f44a5638d48?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    alt="UX Design"
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                <div
+                    class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm z-30 pointer-events-none">
+                    <h3
+                        class="text-white text-2xl font-bold mb-2 translate-y-5 group-hover:translate-y-0 transition-transform duration-500">
+                        Banking App</h3>
+                    <p
+                        class="text-gray-100 text-sm translate-y-5 group-hover:translate-y-0 transition-transform duration-500 delay-75">
+                        App Interface Design</p>
                 </div>
             </div>
 
             <!-- Photography -->
-            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="photography" data-type="image">
-                <img src="https://images.unsplash.com/photo-1554048612-387768052bf7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Photography" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm z-30 pointer-events-none">
-                    <h3 class="text-white text-2xl font-bold mb-2 translate-y-5 group-hover:translate-y-0 transition-transform duration-500">Urban Portrait</h3>
-                    <p class="text-gray-100 text-sm translate-y-5 group-hover:translate-y-0 transition-transform duration-500 delay-75">Photography</p>
+            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in"
+                data-category="photography" data-type="image">
+                <img src="https://images.unsplash.com/photo-1554048612-387768052bf7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    alt="Photography"
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                <div
+                    class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm z-30 pointer-events-none">
+                    <h3
+                        class="text-white text-2xl font-bold mb-2 translate-y-5 group-hover:translate-y-0 transition-transform duration-500">
+                        Urban Portrait</h3>
+                    <p
+                        class="text-gray-100 text-sm translate-y-5 group-hover:translate-y-0 transition-transform duration-500 delay-75">
+                        Photography</p>
                 </div>
             </div>
 
             <!-- Graphic Design -->
-            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in" data-category="graphic" data-type="image">
-                <img src="https://images.unsplash.com/photo-1626785774573-4b799314348d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Graphic Design" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm z-30 pointer-events-none">
-                    <h3 class="text-white text-2xl font-bold mb-2 translate-y-5 group-hover:translate-y-0 transition-transform duration-500">Brand Identity</h3>
-                    <p class="text-gray-100 text-sm translate-y-5 group-hover:translate-y-0 transition-transform duration-500 delay-75">Graphic Design</p>
+            <div class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in"
+                data-category="graphic" data-type="image">
+                <img src="https://images.unsplash.com/photo-1626785774573-4b799314348d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    alt="Graphic Design"
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                <div
+                    class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm z-30 pointer-events-none">
+                    <h3
+                        class="text-white text-2xl font-bold mb-2 translate-y-5 group-hover:translate-y-0 transition-transform duration-500">
+                        Brand Identity</h3>
+                    <p
+                        class="text-gray-100 text-sm translate-y-5 group-hover:translate-y-0 transition-transform duration-500 delay-75">
+                        Graphic Design</p>
                 </div>
             </div>
 
@@ -467,29 +659,37 @@
     <!-- Sección Contacto (Fondo transparente) -->
     <section id="contact" class="py-24 px-6 md:px-[10%]">
         <div class="text-center mb-12">
-            <p class="lang-text text-primary font-bold tracking-[2px] text-[13px] uppercase" data-key="contact_subtitle">GET IN TOUCH</p>
+            <p class="lang-text text-primary font-bold tracking-[2px] text-[13px] uppercase"
+                data-key="contact_subtitle">GET IN TOUCH</p>
             <h2 class="lang-text text-[40px] font-bold mt-2" data-key="contact_title">Contact Me</h2>
         </div>
 
         <div class="flex flex-col items-center text-center gap-12 max-w-[900px] mx-auto">
-            <p class="lang-text contact-message text-lg text-secondary leading-loose max-w-[700px]" data-key="contact_msg">
-                I'm always interested in hearing about new projects and opportunities. Whether you have a question or just want to say hi, feel free to reach out. Let's create something amazing together!
+            <p class="lang-text contact-message text-lg text-secondary leading-loose max-w-[700px]"
+                data-key="contact_msg">
+                I'm always interested in hearing about new projects and opportunities. Whether you have a question or
+                just want to say hi, feel free to reach out. Let's create something amazing together!
             </p>
 
             <!-- Tarjetas Info -->
             <div class="flex flex-wrap justify-center gap-8 w-full">
-                <div class="flex-1 min-w-[250px] bg-white/5 border border-white/5 p-8 rounded-2xl flex flex-col items-center hover:-translate-y-2 hover:border-primary hover:bg-primary/5 transition-all duration-300 group">
-                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                <div
+                    class="flex-1 min-w-[250px] bg-white/5 border border-white/5 p-8 rounded-2xl flex flex-col items-center hover:-translate-y-2 hover:border-primary hover:bg-primary/5 transition-all duration-300 group">
+                    <div
+                        class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
                         <i class="fas fa-envelope text-3xl text-primary"></i>
                     </div>
                     <h4 class="lang-text text-lg font-bold text-white mb-2" data-key="info_email_title">Email</h4>
                     <p class="text-secondary text-[15px] break-all">
-                        <a href="mailto:pablomigueldiazvizcaino@gmail.com" class="hover:text-primary transition-colors">pablomigueldiazvizcaino@gmail.com</a>
+                        <a href="mailto:pablomigueldiazvizcaino@gmail.com"
+                            class="hover:text-primary transition-colors">pablomigueldiazvizcaino@gmail.com</a>
                     </p>
                 </div>
 
-                <div class="flex-1 min-w-[250px] bg-white/5 border border-white/5 p-8 rounded-2xl flex flex-col items-center hover:-translate-y-2 hover:border-primary hover:bg-primary/5 transition-all duration-300 group">
-                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                <div
+                    class="flex-1 min-w-[250px] bg-white/5 border border-white/5 p-8 rounded-2xl flex flex-col items-center hover:-translate-y-2 hover:border-primary hover:bg-primary/5 transition-all duration-300 group">
+                    <div
+                        class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
                         <i class="fas fa-phone text-3xl text-primary"></i>
                     </div>
                     <h4 class="lang-text text-lg font-bold text-white mb-2" data-key="info_phone_title">Phone</h4>
@@ -498,8 +698,10 @@
                     </p>
                 </div>
 
-                <div class="flex-1 min-w-[250px] bg-white/5 border border-white/5 p-8 rounded-2xl flex flex-col items-center hover:-translate-y-2 hover:border-primary hover:bg-primary/5 transition-all duration-300 group">
-                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                <div
+                    class="flex-1 min-w-[250px] bg-white/5 border border-white/5 p-8 rounded-2xl flex flex-col items-center hover:-translate-y-2 hover:border-primary hover:bg-primary/5 transition-all duration-300 group">
+                    <div
+                        class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
                         <i class="fas fa-map-marker-alt text-3xl text-primary"></i>
                     </div>
                     <h4 class="lang-text text-lg font-bold text-white mb-2" data-key="info_loc_title">Location</h4>
@@ -509,12 +711,15 @@
 
             <!-- Botones Sociales Grandes -->
             <div class="w-full">
-                <h3 class="lang-text text-white mb-6 font-medium text-lg" data-key="social_title">Connect on Social Media</h3>
+                <h3 class="lang-text text-white mb-6 font-medium text-lg" data-key="social_title">Connect on Social
+                    Media</h3>
                 <div class="flex flex-wrap justify-center gap-5">
-                    <a href="https://www.linkedin.com/in/pablo-diaz-designer/" target="_blank" class="px-9 py-3.5 border-2 border-primary rounded-full text-white font-semibold flex items-center gap-3 hover:bg-primary hover:shadow-glow hover:-translate-y-1 transition-all duration-300">
+                    <a href="https://www.linkedin.com/in/pablo-diaz-designer/" target="_blank"
+                        class="px-9 py-3.5 border-2 border-primary rounded-full text-white font-semibold flex items-center gap-3 hover:bg-primary hover:shadow-glow hover:-translate-y-1 transition-all duration-300">
                         <i class="fab fa-linkedin-in text-xl"></i> LinkedIn
                     </a>
-                    <a href="https://www.behance.net/pablodiaz1920" target="_blank" class="px-9 py-3.5 border-2 border-primary rounded-full text-white font-semibold flex items-center gap-3 hover:bg-primary hover:shadow-glow hover:-translate-y-1 transition-all duration-300">
+                    <a href="https://www.behance.net/pablodiaz1920" target="_blank"
+                        class="px-9 py-3.5 border-2 border-primary rounded-full text-white font-semibold flex items-center gap-3 hover:bg-primary hover:shadow-glow hover:-translate-y-1 transition-all duration-300">
                         <i class="fab fa-behance text-xl"></i> Behance
                     </a>
                 </div>
@@ -523,51 +728,64 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-darker py-10 px-6 md:px-[10%] flex flex-col md:flex-row justify-between items-center border-t border-[#222]">
+    <footer
+        class="bg-darker py-10 px-6 md:px-[10%] flex flex-col md:flex-row justify-between items-center border-t border-[#222]">
         <p class="text-secondary text-sm text-center md:text-left mb-4 md:mb-0">
             &copy; 2026 Pablo Diaz. <span class="lang-text" data-key="footer_rights">All rights reserved.</span>
         </p>
         <div class="flex gap-6 text-lg text-secondary">
-            <a href="https://www.linkedin.com/in/pablo-diaz-designer/" target="_blank" class="hover:text-primary transition-colors"><i class="fab fa-linkedin-in"></i></a>
-            <a href="https://www.behance.net/pablodiaz1920" target="_blank" class="hover:text-primary transition-colors"><i class="fab fa-behance"></i></a>
+            <a href="https://www.linkedin.com/in/pablo-diaz-designer/" target="_blank"
+                class="hover:text-primary transition-colors"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.behance.net/pablodiaz1920" target="_blank"
+                class="hover:text-primary transition-colors"><i class="fab fa-behance"></i></a>
         </div>
     </footer>
 
     <!-- WhatsApp Floating Button (NUEVO) -->
-    <a href="https://wa.me/18097795503" target="_blank" class="fixed bottom-10 left-10 z-50 bg-[#25D366] text-white w-12 h-12 rounded-full flex items-center justify-center text-2xl shadow-glow hover:bg-[#20b858] hover:-translate-y-1 transition-all duration-300" title="Chat on WhatsApp">
+    <a href="https://wa.me/18097795503" target="_blank"
+        class="fixed bottom-10 left-10 z-50 bg-[#25D366] text-white w-12 h-12 rounded-full flex items-center justify-center text-2xl shadow-glow hover:bg-[#20b858] hover:-translate-y-1 transition-all duration-300"
+        title="Chat on WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
 
     <!-- Scroll To Top Button -->
-    <button id="scrollTopBtn" class="fixed bottom-10 right-10 z-50 bg-primary text-white w-12 h-12 rounded-full hidden items-center justify-center text-lg shadow-glow hover:bg-[#d11e00] hover:-translate-y-1 transition-all duration-300">
+    <button id="scrollTopBtn"
+        class="fixed bottom-10 right-10 z-50 bg-primary text-white w-12 h-12 rounded-full hidden items-center justify-center text-lg shadow-glow hover:bg-[#d11e00] hover:-translate-y-1 transition-all duration-300">
         <i class="fas fa-arrow-up"></i>
     </button>
 
     <!-- Modal (Lightbox Híbrido: Imagen o Iframe) -->
-    <div id="projectModal" class="hidden fixed inset-0 z-[2000] bg-black/95 backdrop-blur-md justify-center items-center p-4">
-        <div class="relative w-full h-full max-w-[1200px] max-h-[90vh] flex flex-col items-center justify-center animate-zoom-in">
+    <div id="projectModal"
+        class="hidden fixed inset-0 z-[2000] bg-black/95 backdrop-blur-md justify-center items-center p-4">
+        <div
+            class="relative w-full h-full max-w-[1200px] max-h-[90vh] flex flex-col items-center justify-center animate-zoom-in">
             <!-- Botón Cerrar -->
-            <span class="close-modal absolute -top-10 right-0 md:-right-10 text-white text-4xl font-bold cursor-pointer hover:text-primary transition-colors">&times;</span>
-            
+            <span
+                class="close-modal absolute -top-10 right-0 md:-right-10 text-white text-4xl font-bold cursor-pointer hover:text-primary transition-colors">&times;</span>
+
             <!-- Contenedor de Medios (Imagen o Iframe) -->
-            <div class="w-full h-full flex items-center justify-center overflow-hidden rounded-lg bg-black border border-white/10 shadow-2xl relative" id="mediaContainer">
-                
+            <div class="w-full h-full flex items-center justify-center overflow-hidden rounded-lg bg-black border border-white/10 shadow-2xl relative"
+                id="mediaContainer">
+
                 <!-- 1. Imagen Estática -->
                 <img class="hidden w-full h-auto max-h-[70vh] object-contain" id="modalImg" src="">
-                
+
                 <!-- 2. Iframe para Sitios Web -->
                 <div id="iframeContainer" class="hidden w-full h-full bg-white relative">
                     <!-- Loader -->
-                    <div id="iframeLoader" class="absolute inset-0 flex flex-col items-center justify-center bg-dark z-20">
+                    <div id="iframeLoader"
+                        class="absolute inset-0 flex flex-col items-center justify-center bg-dark z-20">
                         <div class="iframe-loader mb-4"></div>
                         <p class="text-secondary text-sm">Loading Preview...</p>
                     </div>
                     <!-- Fallback message -->
                     <div class="absolute inset-0 flex flex-col items-center justify-center bg-dark -z-10">
                         <p class="text-secondary mb-4">Preview not available for this site.</p>
-                        <a href="#" id="fallbackLink" target="_blank" class="text-primary hover:underline">Open in new tab</a>
+                        <a href="#" id="fallbackLink" target="_blank" class="text-primary hover:underline">Open in new
+                            tab</a>
                     </div>
-                    <iframe id="modalIframe" src="" class="w-full h-full border-0 z-10" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+                    <iframe id="modalIframe" src="" class="w-full h-full border-0 z-10"
+                        sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
                 </div>
 
             </div>
@@ -577,9 +795,11 @@
                 <h3 class="modal-title text-2xl font-bold text-primary mb-1" id="modalTitle">Project Title</h3>
                 <div class="modal-tools text-secondary text-lg mb-2 flex justify-center gap-3" id="modalTools"></div>
                 <p class="modal-desc text-secondary" id="modalDesc">Project Category</p>
-                
+
                 <!-- Botón de visitar sitio (Visible para websites) -->
-                <a href="#" id="modalLink" class="btn btn-primary mt-4 inline-block bg-primary text-white px-8 py-2.5 rounded-full font-semibold hover:shadow-glow transition-all hover:bg-white hover:text-primary" target="_blank" style="display:none;">
+                <a href="#" id="modalLink"
+                    class="btn btn-primary mt-4 inline-block bg-primary text-white px-8 py-2.5 rounded-full font-semibold hover:shadow-glow transition-all hover:bg-white hover:text-primary"
+                    target="_blank" style="display:none;">
                     Visit Website <i class="fas fa-external-link-alt ml-2"></i>
                 </a>
             </div>
@@ -612,7 +832,7 @@
                 cat_design: "Graphic & UI Design",
                 cat_dev: "Web Development",
                 cat_media: "Photography & Video",
-                
+
                 // Experiencia
                 exp_subtitle: "MY JOURNEY",
                 exp_title: "Work Experience",
@@ -667,7 +887,7 @@
                 cat_design: "Diseño Gráfico & UI",
                 cat_dev: "Desarrollo Web",
                 cat_media: "Fotografía y Video",
-                
+
                 // Experiencia
                 exp_subtitle: "MI TRAYECTORIA",
                 exp_title: "Experiencia Laboral",
@@ -732,7 +952,7 @@
                     b.classList.remove('bg-primary', 'text-white', 'border-primary');
                     b.classList.add('text-secondary', 'border-white/10');
                 });
-                
+
                 btn.classList.remove('text-secondary', 'border-white/10');
                 btn.classList.add('bg-primary', 'text-white', 'border-primary');
 
@@ -755,21 +975,21 @@
 
         // Activar primer botón
         const activeBtn = document.querySelector('.tab-btn.active');
-        if(activeBtn) {
+        if (activeBtn) {
             activeBtn.classList.remove('text-secondary', 'border-white/10');
             activeBtn.classList.add('bg-primary', 'text-white', 'border-primary');
         }
 
         // --- Scroll To Top ---
         const scrollTopBtn = document.getElementById("scrollTopBtn");
-        window.onscroll = function() {
+        window.onscroll = function () {
             if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
                 scrollTopBtn.style.display = "flex";
             } else {
                 scrollTopBtn.style.display = "none";
             }
         };
-        scrollTopBtn.addEventListener("click", function() {
+        scrollTopBtn.addEventListener("click", function () {
             window.scrollTo({ top: 0, behavior: "smooth" });
         });
 
@@ -780,7 +1000,7 @@
         const modalIframe = document.getElementById("modalIframe");
         const iframeLoader = document.getElementById("iframeLoader");
         const fallbackLink = document.getElementById("fallbackLink");
-        
+
         const modalTitle = document.getElementById("modalTitle");
         const modalDesc = document.getElementById("modalDesc");
         const modalLink = document.getElementById("modalLink");
@@ -790,7 +1010,7 @@
         portfolioItems.forEach(item => {
             // --- Lógica de Tilt 3D ---
             // Agregar elemento shine si no existe
-            if(!item.querySelector('.shine')) {
+            if (!item.querySelector('.shine')) {
                 const shine = document.createElement('div');
                 shine.className = 'shine absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-transparent opacity-0 transition-opacity duration-300 pointer-events-none z-20';
                 item.appendChild(shine);
@@ -800,21 +1020,21 @@
                 const rect = item.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                
+
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
-                
+
                 // Calcular rotación (máximo 10 grados)
-                const rotateX = ((y - centerY) / centerY) * -10; 
+                const rotateX = ((y - centerY) / centerY) * -10;
                 const rotateY = ((x - centerX) / centerX) * 10;
 
                 // Aplicar transformación
                 item.style.transition = 'transform 0.1s ease-out';
                 item.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-                
+
                 // Mover efecto Shine
                 const shine = item.querySelector('.shine');
-                if(shine) {
+                if (shine) {
                     shine.style.opacity = '1';
                     shine.style.backgroundImage = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.2), transparent 40%)`;
                 }
@@ -823,9 +1043,9 @@
             item.addEventListener('mouseleave', () => {
                 item.style.transition = 'transform 0.5s ease-out';
                 item.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-                
+
                 const shine = item.querySelector('.shine');
-                if(shine) {
+                if (shine) {
                     shine.style.opacity = '0';
                 }
             });
@@ -847,7 +1067,7 @@
                 modalImg.classList.add('hidden');
                 iframeContainer.classList.add('hidden');
                 modalLink.style.display = "none";
-                
+
                 // Lógica de tipo
                 if (type === 'iframe' && link) {
                     // Mostrar modo Iframe
@@ -855,16 +1075,16 @@
                     iframeLoader.style.display = 'flex'; // Mostrar loader
                     modalIframe.src = link;
                     fallbackLink.href = link;
-                    
+
                     // Cuando iframe carga, ocultar loader
-                    modalIframe.onload = function() {
+                    modalIframe.onload = function () {
                         iframeLoader.style.display = 'none';
                     };
-                    
+
                     // Botón visitar también visible
                     modalLink.href = link;
                     modalLink.style.display = "inline-block";
-                    
+
                 } else {
                     // Mostrar modo Imagen
                     modalImg.src = img;
@@ -941,7 +1161,7 @@
                 // Interactividad simple con el mouse (las partículas huyen un poco)
                 let dx = mouse.x - this.x;
                 let dy = mouse.y - this.y;
-                let distance = Math.sqrt(dx*dx + dy*dy);
+                let distance = Math.sqrt(dx * dx + dy * dy);
                 if (distance < 100) {
                     if (mouse.x < this.x && this.x < canvas.width - 10) {
                         this.x += 1;
@@ -959,7 +1179,7 @@
 
                 this.x += this.directionX;
                 this.y += this.directionY;
-                
+
                 this.draw();
             }
         }
@@ -970,7 +1190,7 @@
             y: null,
             radius: 100
         }
-        window.addEventListener('mousemove', function(event) {
+        window.addEventListener('mousemove', function (event) {
             mouse.x = event.x;
             mouse.y = event.y;
         });
@@ -992,7 +1212,7 @@
 
             for (let i = 0; i < particlesArray.length; i++) {
                 particlesArray[i].update();
-                
+
                 // Conectar líneas entre partículas cercanas
                 for (let j = i; j < particlesArray.length; j++) {
                     let distance = Math.sqrt(
@@ -1025,4 +1245,5 @@
 
     </script>
 </body>
+
 </html>
