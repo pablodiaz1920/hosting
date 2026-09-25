@@ -1,1 +1,115 @@
 @import "tailwindcss";
+
+@theme {
+    --color-primary: #FF2400;
+    --color-dark: #1a1a1a;
+    --color-darker: #111111;
+    --color-secondary: #b3b3b3;
+    --color-glass: rgba(255, 255, 255, 0.05);
+    --font-sans: 'Poppins', sans-serif;
+    --shadow-glow: 0 5px 20px rgba(255, 36, 0, 0.3);
+    --shadow-glow-hover: 0 8px 25px rgba(255, 36, 0, 0.5);
+}
+
+body {
+    background-color: #1a1a1a;
+    color: white;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* Canvas para partículas */
+#particles-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Ocultar checkbox del toggle de idioma */
+#language-toggle {
+    display: none;
+}
+
+/* Lógica visual del toggle de idioma */
+#language-toggle:not(:checked) ~ .switch-label .en {
+    opacity: 1;
+    color: #FF2400;
+}
+
+#language-toggle:checked ~ .switch-label .es {
+    opacity: 1;
+    color: #FF2400;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.animate-zoom-in {
+    animation: zoomIn 0.3s ease forwards;
+}
+
+/* Loader para el Iframe */
+.iframe-loader {
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-left-color: #FF2400;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Estilo para tarjetas 3D */
+.portfolio-item {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    will-change: transform;
+}
+
+/* Estilo para listas dentro de las tarjetas de experiencia/educación */
+.timeline-desc ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-top: 10px;
+}
+.timeline-desc li {
+    margin-bottom: 8px;
+    color: #b3b3b3;
+    font-size: 0.9rem;
+}

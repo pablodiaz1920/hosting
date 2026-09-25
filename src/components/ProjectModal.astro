@@ -1,0 +1,165 @@
+---
+---
+<!-- Modal (Lightbox Híbrido: Imagen o Iframe) -->
+<div id="projectModal" class="hidden fixed inset-0 z-[2000] bg-black/95 backdrop-blur-md justify-center items-center p-4">
+    <div class="relative w-full h-full max-w-[1200px] max-h-[90vh] flex flex-col items-center justify-center animate-zoom-in">
+        <!-- Botón Cerrar -->
+        <span class="close-modal absolute -top-10 right-0 md:-right-10 text-white text-4xl font-bold cursor-pointer hover:text-primary transition-colors">&times;</span>
+
+        <!-- Contenedor de Medios (Imagen o Iframe) -->
+        <div class="w-full h-full flex items-center justify-center overflow-hidden rounded-lg bg-black border border-white/10 shadow-2xl relative" id="mediaContainer">
+
+            <!-- 1. Imagen Estática -->
+            <img class="hidden w-full h-auto max-h-[70vh] object-contain" id="modalImg" src="" alt="Project Preview">
+
+            <!-- 2. Iframe para Sitios Web -->
+            <div id="iframeContainer" class="hidden w-full h-full bg-white relative">
+                <!-- Loader -->
+                <div id="iframeLoader" class="absolute inset-0 flex flex-col items-center justify-center bg-dark z-20">
+                    <div class="iframe-loader mb-4"></div>
+                    <p class="text-secondary text-sm">Loading Preview...</p>
+                </div>
+                <!-- Fallback message -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center bg-dark -z-10">
+                    <p class="text-secondary mb-4">Preview not available for this site.</p>
+                    <a href="#" id="fallbackLink" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Open in new tab</a>
+                </div>
+                <iframe id="modalIframe" src="" class="w-full h-full border-0 z-10" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+            </div>
+
+        </div>
+
+        <!-- Texto descriptivo (Título y Herramientas) -->
+        <div class="mt-4 text-center w-full bg-darker/80 p-4 rounded-xl border border-white/5 backdrop-blur-sm">
+            <h3 class="modal-title text-2xl font-bold text-primary mb-1" id="modalTitle">Project Title</h3>
+            <div class="modal-tools text-secondary text-lg mb-2 flex justify-center gap-3" id="modalTools"></div>
+            <p class="modal-desc text-secondary" id="modalDesc">Project Category</p>
+
+            <!-- Botón de visitar sitio -->
+            <a href="#" id="modalLink" class="btn btn-primary mt-4 bg-primary text-white px-8 py-2.5 rounded-full font-semibold hover:shadow-glow transition-all hover:bg-white hover:text-primary" target="_blank" rel="noopener noreferrer" style="display:none;">
+                Visit Website <i class="fas fa-external-link-alt ml-2"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- Modal & Iframe Logic ---
+    const modal = document.getElementById("projectModal") as HTMLElement;
+    const modalImg = document.getElementById("modalImg") as HTMLImageElement;
+    const iframeContainer = document.getElementById("iframeContainer") as HTMLElement;
+    const modalIframe = document.getElementById("modalIframe") as HTMLIFrameElement;
+    const iframeLoader = document.getElementById("iframeLoader") as HTMLElement;
+    const fallbackLink = document.getElementById("fallbackLink") as HTMLAnchorElement;
+
+    const modalTitle = document.getElementById("modalTitle") as HTMLElement;
+    const modalDesc = document.getElementById("modalDesc") as HTMLElement;
+    const modalLink = document.getElementById("modalLink") as HTMLAnchorElement;
+    const modalTools = document.getElementById("modalTools") as HTMLElement;
+    const closeModal = document.querySelector(".close-modal") as HTMLElement;
+
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+    portfolioItems.forEach(item => {
+        const el = item as HTMLElement;
+
+        // --- Lógica de Tilt 3D ---
+        if (!el.querySelector('.shine')) {
+            const shine = document.createElement('div');
+            shine.className = 'shine absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-transparent opacity-0 transition-opacity duration-300 pointer-events-none z-20';
+            el.appendChild(shine);
+        }
+
+        el.addEventListener('mousemove', (e: MouseEvent) => {
+            const rect = el.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const rotateX = ((y - centerY) / centerY) * -10;
+            const rotateY = ((x - centerX) / centerX) * 10;
+
+            el.style.transition = 'transform 0.1s ease-out';
+            el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+
+            const shine = el.querySelector('.shine') as HTMLElement;
+            if (shine) {
+                shine.style.opacity = '1';
+                shine.style.backgroundImage = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.2), transparent 40%)`;
+            }
+        });
+
+        el.addEventListener('mouseleave', () => {
+            el.style.transition = 'transform 0.5s ease-out';
+            el.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+
+            const shine = el.querySelector('.shine') as HTMLElement;
+            if (shine) {
+                shine.style.opacity = '0';
+            }
+        });
+
+        // --- Lógica Click (Modal) ---
+        el.addEventListener('click', () => {
+            const type = el.getAttribute('data-type');
+            const img = (el.querySelector("img") as HTMLImageElement)?.src || '';
+            const title = (el.querySelector("h3") as HTMLElement)?.innerText || '';
+            const desc = (el.querySelector("p") as HTMLElement)?.innerText || '';
+            const link = el.getAttribute('data-link');
+            const tools = el.getAttribute('data-tools');
+
+            if (modal) modal.style.display = "flex";
+            if (modalTitle) modalTitle.innerText = title;
+            if (modalDesc) modalDesc.innerText = desc;
+
+            modalImg?.classList.add('hidden');
+            iframeContainer?.classList.add('hidden');
+            if (modalLink) modalLink.style.display = "none";
+
+            if (type === 'iframe' && link) {
+                iframeContainer?.classList.remove('hidden');
+                if (iframeLoader) iframeLoader.style.display = 'flex';
+                if (modalIframe) modalIframe.src = link;
+                if (fallbackLink) fallbackLink.href = link;
+
+                if (modalIframe) {
+                    modalIframe.onload = function () {
+                        if (iframeLoader) iframeLoader.style.display = 'none';
+                    };
+                }
+
+                if (modalLink) {
+                    modalLink.href = link;
+                    modalLink.style.display = "inline-block";
+                }
+            } else {
+                if (modalImg) {
+                    modalImg.src = img;
+                    modalImg.classList.remove('hidden');
+                }
+                if (modalIframe) modalIframe.src = "";
+            }
+
+            if (tools && modalTools) {
+                modalTools.innerHTML = tools;
+                modalTools.style.display = "flex";
+            } else if (modalTools) {
+                modalTools.style.display = "none";
+            }
+        });
+    });
+
+    function closeProjectModal() {
+        if (modal) modal.style.display = "none";
+        if (modalIframe) modalIframe.src = "";
+    }
+
+    closeModal?.addEventListener('click', closeProjectModal);
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeProjectModal();
+        }
+    });
+</script>

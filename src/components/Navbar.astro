@@ -1,0 +1,110 @@
+---
+---
+<!-- Navegación -->
+<nav class="fixed w-full top-0 z-50 bg-[#1a1a1a]/80 backdrop-blur-md border-b border-white/5 px-6 md:px-[8%] py-5 flex justify-between items-center transition-all duration-300">
+    <a href="#" class="text-2xl font-extrabold tracking-wide text-white">PABLO<span class="text-primary">.</span></a>
+
+    <div class="hidden md:flex items-center gap-8">
+        <div class="flex gap-8">
+            <a href="#home" class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300" data-key="nav_home">Home</a>
+            <a href="#about" class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300" data-key="nav_about">About Me</a>
+            <a href="#experience" class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300" data-key="nav_exp">Experience</a>
+            <a href="#education" class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300" data-key="nav_edu">Education</a>
+            <a href="#portfolio" class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300" data-key="nav_portfolio">Portfolio</a>
+            <a href="#contact" class="lang-text text-sm font-medium uppercase hover:text-primary transition-colors duration-300" data-key="nav_contact">Contact</a>
+        </div>
+
+        <!-- Interruptor de Idioma -->
+        <div class="flex items-center ml-4">
+            <input type="checkbox" id="language-toggle">
+            <label for="language-toggle" class="switch-label cursor-pointer bg-glass px-3 py-1.5 rounded-full border border-white/10 flex gap-2.5 text-xs font-bold select-none">
+                <span class="en opacity-30 transition-opacity duration-300">EN</span>
+                <span class="es opacity-30 transition-opacity duration-300">ES</span>
+            </label>
+        </div>
+    </div>
+
+    <!-- Menú Móvil Button -->
+    <button id="mobile-menu-btn" class="md:hidden text-2xl text-white focus:outline-none" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Menú Móvil Overlay -->
+    <div id="mobile-menu" class="hidden fixed inset-x-0 top-[73px] bg-[#1a1a1a]/95 backdrop-blur-lg border-b border-white/10 px-6 py-6 flex-col gap-5 md:hidden shadow-2xl">
+        <a href="#home" class="mobile-nav-link lang-text text-base font-medium uppercase hover:text-primary transition-colors" data-key="nav_home">Home</a>
+        <a href="#about" class="mobile-nav-link lang-text text-base font-medium uppercase hover:text-primary transition-colors" data-key="nav_about">About Me</a>
+        <a href="#experience" class="mobile-nav-link lang-text text-base font-medium uppercase hover:text-primary transition-colors" data-key="nav_exp">Experience</a>
+        <a href="#education" class="mobile-nav-link lang-text text-base font-medium uppercase hover:text-primary transition-colors" data-key="nav_edu">Education</a>
+        <a href="#portfolio" class="mobile-nav-link lang-text text-base font-medium uppercase hover:text-primary transition-colors" data-key="nav_portfolio">Portfolio</a>
+        <a href="#contact" class="mobile-nav-link lang-text text-base font-medium uppercase hover:text-primary transition-colors" data-key="nav_contact">Contact</a>
+
+        <div class="flex items-center pt-2 border-t border-white/10">
+            <span class="text-xs text-secondary mr-3 font-semibold">LANGUAGE:</span>
+            <input type="checkbox" id="language-toggle-mobile" hidden>
+            <label for="language-toggle-mobile" id="mobile-lang-label" class="cursor-pointer bg-glass px-4 py-2 rounded-full border border-white/10 flex gap-3 text-xs font-bold select-none">
+                <span class="mobile-en opacity-30 transition-opacity duration-300">EN</span>
+                <span class="mobile-es opacity-30 transition-opacity duration-300">ES</span>
+            </label>
+        </div>
+    </div>
+</nav>
+
+<script>
+    // Toggle Mobile Menu
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+    menuBtn?.addEventListener('click', () => {
+        mobileMenu?.classList.toggle('hidden');
+        mobileMenu?.classList.toggle('flex');
+    });
+
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu?.classList.add('hidden');
+            mobileMenu?.classList.remove('flex');
+        });
+    });
+
+    // Mobile Language toggle sync with main toggle
+    const mainToggle = document.getElementById('language-toggle') as HTMLInputElement;
+    const mobileToggle = document.getElementById('language-toggle-mobile') as HTMLInputElement;
+
+    mobileToggle?.addEventListener('change', () => {
+        if (mainToggle) {
+            mainToggle.checked = mobileToggle.checked;
+            mainToggle.dispatchEvent(new Event('change'));
+        }
+    });
+
+    mainToggle?.addEventListener('change', () => {
+        if (mobileToggle) {
+            mobileToggle.checked = mainToggle.checked;
+            updateMobileLangVisuals(mainToggle.checked);
+        }
+    });
+
+    function updateMobileLangVisuals(isSpanish: boolean) {
+        const enSpan = document.querySelector('.mobile-en') as HTMLElement;
+        const esSpan = document.querySelector('.mobile-es') as HTMLElement;
+        if (enSpan && esSpan) {
+            if (isSpanish) {
+                enSpan.style.opacity = '0.3';
+                enSpan.style.color = 'inherit';
+                esSpan.style.opacity = '1';
+                esSpan.style.color = '#FF2400';
+            } else {
+                enSpan.style.opacity = '1';
+                enSpan.style.color = '#FF2400';
+                esSpan.style.opacity = '0.3';
+                esSpan.style.color = 'inherit';
+            }
+        }
+    }
+
+    // Initialize visual state
+    if (mainToggle) {
+        updateMobileLangVisuals(mainToggle.checked);
+    }
+</script>

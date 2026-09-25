@@ -1,0 +1,53 @@
+---
+import { experiences } from '../data/experienceData';
+import { translations } from '../data/translations';
+---
+<!-- Experiencia Laboral ACTUALIZADA -->
+<section id="experience" class="py-20 px-6 md:px-[10%] bg-black/20">
+    <div class="text-center mb-12">
+        <p class="lang-text text-primary font-bold tracking-[2px] text-[13px] uppercase" data-key="exp_subtitle">MY JOURNEY</p>
+        <h2 class="lang-text text-[40px] font-bold mt-2" data-key="exp_title">Work Experience</h2>
+    </div>
+
+    <div class="max-w-5xl mx-auto space-y-8">
+        {experiences.map((exp, index) => {
+            const isEven = index % 2 === 0;
+            const initialDesc = translations.en[exp.descKey as keyof typeof translations.en] || '';
+            const initialRole = translations.en[exp.roleKey as keyof typeof translations.en] || '';
+            const initialDate = translations.en[exp.dateKey as keyof typeof translations.en] || '';
+
+            return (
+                <div class="relative pl-8 md:pl-0">
+                    <div class={`md:flex items-start justify-between group ${isEven ? '' : 'flex-row-reverse'}`}>
+                        <!-- Linea conectora (Visible en Desktop) -->
+                        <div class="hidden md:block absolute left-0 top-0 bottom-0 w-[1px] bg-white/10 md:left-1/2 md:-ml-[0.5px]"></div>
+
+                        <!-- Fecha -->
+                        <div class={`md:w-[45%] mb-2 md:mb-0 md:mt-1 ${isEven ? 'md:text-right md:pr-8' : 'md:text-left md:pl-8'}`}>
+                            <span
+                                class={`lang-text inline-block bg-white/5 text-xs font-bold px-3 py-1 rounded-full border border-white/5 ${exp.isPrimary ? 'text-primary' : 'text-secondary'}`}
+                                data-key={exp.dateKey}
+                            >
+                                {initialDate}
+                            </span>
+                        </div>
+
+                        <!-- Punto central -->
+                        <div class={`absolute left-0 md:left-1/2 w-4 h-4 rounded-full border-4 border-[#1a1a1a] -ml-[5px] md:-ml-[8px] mt-2.5 z-10 ${exp.isPrimary ? 'bg-primary shadow-glow' : 'bg-[#333] group-hover:bg-primary transition-colors'}`}></div>
+
+                        <!-- Tarjeta de Contenido -->
+                        <div class={`md:w-[45%] ${isEven ? 'md:pl-8' : 'md:pr-8'}`}>
+                            <div class={`bg-white/5 border border-white/5 p-6 rounded-xl hover:border-primary hover:bg-primary/5 transition-all duration-300 cursor-default ${isEven ? 'text-left' : 'text-left md:text-right'}`}>
+                                <h3 class="lang-text text-xl font-bold text-white mb-1" data-key={exp.roleKey}>{initialRole}</h3>
+                                <h4 class={`text-secondary text-sm font-medium mb-3 ${exp.companyKey ? 'lang-text' : ''}`} data-key={exp.companyKey || ''}>
+                                    {exp.company}
+                                </h4>
+                                <div class="timeline-desc lang-text" data-key={exp.descKey} set:html={initialDesc} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        })}
+    </div>
+</section>

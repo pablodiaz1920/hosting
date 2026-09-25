@@ -1,23 +1,61 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+---
+import '../styles/global.css';
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+interface Props {
+    title?: string;
+    description?: string;
+}
+
+const {
+    title = "Pablo Diaz - Portfolio",
+    description = "Pablo Diaz - Web Designer & UX/UI Designer Portfolio"
+} = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <meta name="description" content={description}>
+    <link rel="icon" type="image/jpeg" href="/Pablo Diaz2.jpeg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="font-sans antialiased selection:bg-primary selection:text-white">
+    <slot />
+
+    <script>
+        import { translations } from '../data/translations';
+
+        const languageToggle = document.getElementById('language-toggle') as HTMLInputElement;
+
+        function changeLanguage() {
+            if (!languageToggle) return;
+            const lang = languageToggle.checked ? 'es' : 'en';
+            const textElements = document.querySelectorAll('.lang-text');
+
+            textElements.forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (key && translations[lang] && (translations[lang] as any)[key]) {
+                    const htmlEl = element as HTMLElement;
+                    htmlEl.style.transition = 'opacity 0.2s ease';
+                    htmlEl.style.opacity = '0';
+                    setTimeout(() => {
+                        htmlEl.innerHTML = (translations[lang] as any)[key];
+                        htmlEl.style.opacity = '1';
+                    }, 200);
+                }
+            });
+        }
+
+        languageToggle?.addEventListener('change', changeLanguage);
+    </script>
+</body>
+</html>

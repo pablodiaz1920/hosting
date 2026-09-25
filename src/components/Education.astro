@@ -1,0 +1,37 @@
+---
+import { educationItems } from '../data/experienceData';
+import { translations } from '../data/translations';
+---
+<!-- Educación ACTUALIZADA -->
+<section id="education" class="py-20 px-6 md:px-[10%]">
+    <div class="text-center mb-16">
+        <p class="lang-text text-primary font-bold tracking-[2px] text-[13px] uppercase" data-key="edu_subtitle">ACADEMIC BACKGROUND</p>
+        <h2 class="lang-text text-[40px] font-bold mt-2" data-key="edu_title">Education & Certifications</h2>
+    </div>
+
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+        {educationItems.map((edu) => {
+            const initialTitle = translations.en[edu.titleKey as keyof typeof translations.en] || '';
+            const initialSchool = edu.schoolKey ? (translations.en[edu.schoolKey as keyof typeof translations.en] || '') : (edu.schoolName || '');
+            const initialDesc = translations.en[edu.descKey as keyof typeof translations.en] || '';
+            const initialHonor = edu.honorKey ? (translations.en[edu.honorKey as keyof typeof translations.en] || '') : null;
+
+            return (
+                <div class="bg-white/5 border border-white/5 p-8 rounded-2xl hover:border-primary hover:bg-primary/5 transition-all duration-300 group relative overflow-hidden flex flex-col h-full">
+                    <i class={`${edu.iconClass} absolute -right-4 -bottom-4 text-9xl text-white/5 group-hover:text-primary/10 transition-colors duration-500`}></i>
+                    <div class="relative z-10 flex-grow">
+                        <span class="text-primary text-xs font-bold tracking-wider mb-2 block">{edu.dateLabel}</span>
+                        <h3 class="lang-text text-2xl font-bold text-white mb-1" data-key={edu.titleKey}>{initialTitle}</h3>
+                        <h4 class={`text-secondary text-sm font-medium mb-4 ${edu.schoolKey ? 'lang-text' : ''}`} data-key={edu.schoolKey || ''}>{initialSchool}</h4>
+                        <p class="lang-text text-secondary text-sm leading-relaxed mb-3" data-key={edu.descKey}>{initialDesc}</p>
+                        {edu.honorKey && (
+                            <span class="inline-block bg-primary/20 text-primary text-xs px-2 py-1 rounded border border-primary/30 lang-text" data-key={edu.honorKey}>
+                                {initialHonor}
+                            </span>
+                        )}
+                    </div>
+                </div>
+            );
+        })}
+    </div>
+</section>

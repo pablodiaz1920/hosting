@@ -1,0 +1,91 @@
+---
+import { portfolioProjects } from '../data/portfolioData';
+---
+<!-- Sección Portafolio -->
+<section id="portfolio" class="py-20 px-6 md:px-[10%] bg-black/30 backdrop-blur-sm">
+    <div class="text-center mb-12">
+        <p class="lang-text text-primary font-bold tracking-[2px] text-[13px] uppercase" data-key="port_subtitle">MY WORK</p>
+        <h2 class="lang-text text-[40px] font-bold mt-2" data-key="port_title">Latest Projects</h2>
+    </div>
+
+    <!-- Pestañas -->
+    <div class="flex justify-center flex-wrap gap-4 mb-12">
+        <button class="tab-btn active lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5" data-filter="all" data-key="cat_all">All</button>
+        <button class="tab-btn lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5" data-filter="website" data-key="cat_web">Website</button>
+        <button class="tab-btn lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5" data-filter="uxui" data-key="cat_ux">UX/UI</button>
+        <button class="tab-btn lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5" data-filter="photography" data-key="cat_photo">Photography</button>
+        <button class="tab-btn lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5" data-filter="graphic" data-key="cat_graphic">Graphic Design</button>
+    </div>
+
+    <!-- Grid de Proyectos -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 portfolio-grid">
+        {portfolioProjects.map((project) => (
+            <div
+                class="portfolio-item group relative h-[300px] rounded-xl overflow-hidden cursor-pointer animate-fade-in"
+                data-category={project.category}
+                data-type={project.type}
+                data-link={project.link || ''}
+                data-tools={project.tools || ''}
+            >
+                <img
+                    src={project.imageSrc}
+                    alt={project.title}
+                    class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
+                />
+                <div class="absolute inset-0 bg-primary/90 flex flex-col justify-center items-center text-center p-5 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 backdrop-blur-sm z-30 pointer-events-none">
+                    {project.type === 'iframe' && (
+                        <div class="mb-3 w-12 h-12 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-md">
+                            <i class="fas fa-eye text-white text-xl"></i>
+                        </div>
+                    )}
+                    <h3 class="text-white text-2xl font-bold mb-1">{project.title}</h3>
+                    <p class="text-gray-100 text-sm">{project.subtitle}</p>
+                    {project.previewBadge && (
+                        <span class="text-xs text-white/80 mt-2 border border-white/30 px-2 py-1 rounded">{project.previewBadge}</span>
+                    )}
+                </div>
+            </div>
+        ))}
+    </div>
+</section>
+
+<script>
+    // --- Portfolio Filter Logic ---
+    const filterBtns = document.querySelectorAll('.tab-btn');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => {
+                b.classList.remove('bg-primary', 'text-white', 'border-primary');
+                b.classList.add('text-secondary', 'border-white/10');
+            });
+
+            btn.classList.remove('text-secondary', 'border-white/10');
+            btn.classList.add('bg-primary', 'text-white', 'border-primary');
+
+            const filterValue = btn.getAttribute('data-filter');
+
+            portfolioItems.forEach(item => {
+                const category = item.getAttribute('data-category');
+                if (filterValue === 'all' || category === filterValue) {
+                    item.classList.remove('hidden');
+                    item.classList.add('block');
+                    item.classList.remove('animate-fade-in');
+                    void (item as HTMLElement).offsetWidth;
+                    item.classList.add('animate-fade-in');
+                } else {
+                    item.classList.remove('block');
+                    item.classList.add('hidden');
+                }
+            });
+        });
+    });
+
+    // Activate active button initial state
+    const activeBtn = document.querySelector('.tab-btn.active');
+    if (activeBtn) {
+        activeBtn.classList.remove('text-secondary', 'border-white/10');
+        activeBtn.classList.add('bg-primary', 'text-white', 'border-primary');
+    }
+</script>

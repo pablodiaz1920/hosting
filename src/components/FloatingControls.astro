@@ -1,0 +1,40 @@
+---
+---
+<!-- WhatsApp Floating Button -->
+<a
+    href="https://wa.me/18097795503"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="fixed bottom-10 left-10 z-50 bg-[#25D366] text-white w-12 h-12 rounded-full flex items-center justify-center text-2xl shadow-glow hover:bg-[#20b858] hover:-translate-y-1 transition-all duration-300"
+    title="Chat on WhatsApp"
+    aria-label="Chat on WhatsApp"
+>
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- Scroll To Top Button -->
+<button
+    id="scrollTopBtn"
+    class="fixed bottom-10 right-10 z-50 bg-primary text-white w-12 h-12 rounded-full hidden items-center justify-center text-lg shadow-glow hover:bg-[#d11e00] hover:-translate-y-1 transition-all duration-300"
+    aria-label="Scroll to top"
+>
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<script>
+    const scrollTopBtn = document.getElementById("scrollTopBtn") as HTMLButtonElement;
+
+    window.onscroll = function () {
+        if (scrollTopBtn) {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                scrollTopBtn.style.display = "flex";
+            } else {
+                scrollTopBtn.style.display = "none";
+            }
+        }
+    };
+
+    scrollTopBtn?.addEventListener("click", function () {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+</script>
