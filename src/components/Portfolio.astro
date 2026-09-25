@@ -10,11 +10,7 @@ import { portfolioProjects } from '../data/portfolioData';
 
     <!-- Pestañas -->
     <div class="flex justify-center flex-wrap gap-4 mb-12">
-        <button class="tab-btn active lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5" data-filter="all" data-key="cat_all">All</button>
-        <button class="tab-btn lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5" data-filter="website" data-key="cat_web">Website</button>
-        <button class="tab-btn lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5" data-filter="uxui" data-key="cat_ux">UX/UI</button>
-        <button class="tab-btn lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5" data-filter="photography" data-key="cat_photo">Photography</button>
-        <button class="tab-btn lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5" data-filter="graphic" data-key="cat_graphic">Graphic Design</button>
+        <button class="tab-btn active lang-text px-6 py-2.5 rounded-full border border-white/10 text-secondary text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary hover:-translate-y-0.5" data-filter="website" data-key="cat_web">Website</button>
     </div>
 
     <!-- Grid de Proyectos -->
@@ -54,6 +50,18 @@ import { portfolioProjects } from '../data/portfolioData';
     const filterBtns = document.querySelectorAll('.tab-btn');
     const portfolioItems = document.querySelectorAll('.portfolio-item');
 
+    // Automatically filter for website projects on load
+    portfolioItems.forEach(item => {
+        const category = item.getAttribute('data-category');
+        if (category === 'website') {
+            item.classList.remove('hidden');
+            item.classList.add('block');
+        } else {
+            item.classList.remove('block');
+            item.classList.add('hidden');
+        }
+    });
+
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             filterBtns.forEach(b => {
@@ -68,7 +76,7 @@ import { portfolioProjects } from '../data/portfolioData';
 
             portfolioItems.forEach(item => {
                 const category = item.getAttribute('data-category');
-                if (filterValue === 'all' || category === filterValue) {
+                if (category === filterValue) {
                     item.classList.remove('hidden');
                     item.classList.add('block');
                     item.classList.remove('animate-fade-in');

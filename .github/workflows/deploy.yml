@@ -92,7 +92,7 @@ jobs:
 
       - name: Install dependencies (npm)
         if: steps.pm.outputs.manager == 'npm'
-        run: npm ci
+        run: npm install
 
       - name: Build (pnpm)
         if: steps.pm.outputs.manager == 'pnpm'
